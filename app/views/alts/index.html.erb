@@ -1,94 +1,34 @@
 <main class="container-fluid pt-3">
   <section class="container">
-    <div class="row mt-5 pt-5 mx-auto ">
-      <div class="col-md-4">
-        <button type="button" class="btn btn-lg btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Add image 
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-          </svg>
-        </button>
-      </div>
-      <div class="col-md-8">
-        <% if params[:verified] == "unverified" %>
-          <% form_url = alts_path(:verified => 'unverified') %>
-        <%else%>
-          <% form_url = alts_path %>
-        <% end %>
-          <%= form_with url: form_url, method: :get do |form| %>
-            <div class="input-group input-group-lg">
-              <% if params[:verified].present? &&  params[:verified] == "unverified" %>
-                <%= form.hidden_field :verified, value: 'unverified' %>
-              <% end %>
-              <%= form.label :query, "Search for:", class: "sr-only" %>
-              <%= form.text_field :query, placeholder: "search for...", class: "form-control rounded " %>
-              <%= form.submit "Search", class: "btn btn-primary" %>
-            </div>
-        <% end %>
-      </div>
+    <%= render partial: "alts/alt_actions" %>
+    <div class="col-8 mt-5 pt-5 mx-auto ">
+      <%= form_with url: '/alts', method: :get do |form| %>
+        <div class="input-group input-group-lg">
+          <%= form.label :query, "Search for:", class: "sr-only" %>
+          <%= form.text_field :query, placeholder: "search for...", class: "form-control rounded " %>
+          <%= form.submit "Search", class: "btn btn-primary" %>
+        </div>
+      <% end %>
     </div>
     <hr class="border-bottom border-muted my-5">
     <div class="row">
-      <div class="col-md-3">
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Upload Image</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-              <%= render "form", alt: @alt %> 
-              </div>
-              <div class="modal-footer">
-                <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>-->
-              </div>
+      <div class="col-lg-12">
+        <div id="alts" class="row">
+          <% @alts.each do |alt| %>
+           <% if alt.verified %>
+            <div class="col-lg-4">
+                <%= render alt %>
             </div>
-          </div>
+          <% end %>
+        <%end%>
         </div>
       </div>
     </div>
-
-      <div class="row py-5">
-        
-       
-         <div id="alts" class="col-md-9 bg-light p-5 border rounded" style="display:inline;">
-         <div class="row">
-            <% @alts.each do |alt| %>
-              <%if params[:verified] == "unverified" %>
-                <% if !alt.verified %>
-                  <div  class="col-xl-3">
-                    <%= render alt %>
-                  </div>
-                <% end %>
-              <%else%>
-                <% if alt.verified %>
-                  <div  class="col-xl-3">
-                    <%= render alt %>
-                  </div>
-                <% end %>
-              <%end%>
-            <% end %>
-            </div>
-         </div>
-          
-     
-      
-        <div class="col-md-3 p-5">
-          <div id= "twitter-feed" class="row">
-              <a class="twitter-timeline" data-height="330" data-width="220" href="https://twitter.com/bts_bighit?ref_src=twsrc%5Etfw">Tweets by bts_bighit</a> 
-              <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-          </div>
-        </div>
-
+    <div class="col-lg-2 position-absolute bottom-0 end-0">
+      <div id= "twitter-feed" class="row">
+          <a class="twitter-timeline" data-height="330" data-width="220" href="https://twitter.com/bts_bighit?ref_src=twsrc%5Etfw">Tweets by bts_bighit</a> 
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
     </div>
   </section>
-  <div class="col-lg-2 position-absolute bottom-0 end-0">
-    <div id= "twitter-feed" class="row">
-        <a class="twitter-timeline" data-height="330" data-width="220" href="https://twitter.com/bts_bighit?ref_src=twsrc%5Etfw">Tweets by bts_bighit</a> 
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-  </div>
 </main>
