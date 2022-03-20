@@ -2,10 +2,11 @@
   <%= render partial: "alts/alt_actions" %>
   <p style="color: green"><%= notice %></p>
   <%= render 'alt_show', alt: @alt %>
-  <% if user_signed_in? && (current_user == @alt_show.user || current_user.super_user?) %>
-    <button type="button" class="btn btn-lg mt-3 btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Edit
+  <% if user_signed_in? && (current_user == @alt_show.user || super_admin) %>
+    <button type="button" class="btn mt-3 btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Participate*
     </button>
+    <p class="text-muted  ">*Help Seven Army improve the title, tags, source, alt text, and etc. of this image</p> 
     <div class="modal fade shadow-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -19,5 +20,11 @@
         </div>
       </div>
     </div>
+     <%= button_to 'Delete', @alt, method: :delete, class: "btn btn-outline-danger", data: { confirm: 'Are you sure you want to delete this image?' } %>
+  <% else %>
+    <button type="button" class="btn mt-3 btn-primary disabled" href="#">
+      Participate*
+    </button>
+    <p class="text-muted  ">*<%= link_to "Log in", new_user_session_path %> or <%= link_to "Sign up", new_user_registration_path %> to help Seven Army improve this image</p> 
   <% end %>
 </main>

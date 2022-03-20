@@ -73,8 +73,8 @@ ActiveRecord::Schema.define(version: 2022_03_14_223904) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "body"
-    t.boolean "flag"
     t.integer "total_verifications", default: 0
+    t.boolean "flag"
     t.index ["user_id"], name: "index_alts_on_user_id"
   end
 

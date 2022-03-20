@@ -35,22 +35,20 @@
   </div>
 
   <div class="form-field mb-3">
-    <%= form.label :body, class: "d-block" %>
+    <%= form.label "Image Alt Text", class: "d-block" %>
     <%= form.text_area :body, class: "form-control", rows: 10 %>
   </div>
   <div class="mb-3 bg-light border rounded border-1 p-3">
-  <div class="d-block">
-     <% if user_signed_in? && current_user.super_user %>
-     <% u = User.find_by(id: current_user.id)%>
-      <% if u.moderator? == true%>
+    <% if super_admin %>
+      <div class="d-block">
+        <%= form.label "Verify the ALT TEXT of this image.", style: "display: block" %>
+        <%= form.check_box :verified %>
+      </div>
 
-    <%= form.label "verified?", style: "display: block" %>
-    <%= form.check_box :verified %>
-   
-   
-    <%= form.hidden_field :user_id, value: current_user.id %>
-      <% end %>
     <% end %>
+  <% if user_signed_in? %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <% end %>
   </div>
   <div>
   <!-- Todo: add Spinner -->

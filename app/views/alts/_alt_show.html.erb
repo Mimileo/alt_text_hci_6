@@ -7,7 +7,6 @@
 <% end %>
 
 <section id="<%= dom_id alt %>">
-
   <h1 class="display-1"><%= alt.title %></h1>
   <nav class="nav nav-pills nav-fill my-4">
     <a aria-labeledby="Share on Twitter" class="social-share" href="https://twitter.com/intent/tweet?url=<%= alt_url(@alt) %>" target="_blank">
@@ -30,7 +29,6 @@
      <a href="https://plus.google.com/share?url=${shareURL}" target="_blank" style="color : #555">
       <i id="googleplus" class="fa fa-google-plus-square fa-2x px-2 md-5"></i>
     </a>
-
     <% if user_signed_in? %>
       <%= link_to "Download", alt.image.url(response_content_disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
     <% end %>
@@ -38,13 +36,7 @@
   <div class="row mt-4">
     <div class="col-md-6 bg-light p-5 border rounded">
       <h2><u>Info.</u></h2>
-        <% if alt.verified == false %>
-          <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Verify
-          </button>
-        <% else %>
-          <small class="d-block mb-1">Verified</small>
-        <% end %>
+      <%= verification(alt) %>
       <span class="d-block mb-1">Tags: <%= linked_tag_list alt %></span>
       <span class="d-block mb-1">URL: <%= alt.original_url %></span>
       <span class="d-block mb-1">Source: <%= alt.original_source %></span>
@@ -61,6 +53,8 @@
         <%= image_tag alt.image_url(:small), class: "image", caption: alt.title, alt: alt.alt_texts.pluck(:body).last, class: "img-fluid", height: alt.image(:small).height, width: alt.image(:small).width %>
       <% end %>
     </div>
+  </div>
 </section>
+
    
   

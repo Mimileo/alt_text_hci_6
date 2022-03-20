@@ -48,7 +48,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-labelledby="Close"></button>
       </div>
     <% end %>
-
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
         <%= link_to "Seven Army", alts_path, class: "navbar-brand" %>
@@ -61,12 +60,18 @@
               <%= link_to "Alt Text", alt_texts_path, class: "nav-link" %>
             </li>
             <% end %>
-            <li class="nav-item">
-              <%= link_to "Help Verify", alts_path(:verified => 'unverified'), class: "nav-link" %>
-            </li>
           <% end %>
         </ul>
+          
+        <div class="d-inline"><%= link_to "Participate", verify_path, class: "me-3" %></div>
         <% if user_signed_in? %>
+          <div class="nav-item">
+            <a href="<%= new_alt_path %>" class="me-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+              </svg> Create 
+            </a>
+          </div>
           <div class="d-inline"><%= link_to "Account", edit_user_registration_path, class: "text-white ms-1 btn btn-primary btn-sm" %></div>
           <div class="d-inline"><%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "ms-1 btn btn-outline-primary btn-sm" %></div>
         <% else %>
