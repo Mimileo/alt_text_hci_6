@@ -1,0 +1,39 @@
+<main class="container">
+  <p style="color: green"><%= notice %></p>
+
+   <div class="col-8 mt-5 pt-5 mx-auto ">
+      <%= form_with url: moderators_path , method: :get do |form| %>
+        <div class="input-group input-group-lg">
+          <%= form.label :query, "Search for:", class: "sr-only" %>
+          <%= form.text_field :query, placeholder: "search for...", class: "form-control rounded " %>
+          <%= form.submit "Search", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+  </div>
+
+  <h1>Users</h1>
+
+  <div id="moderators">
+    
+  </div>
+
+  <!-- <%= link_to "New moderator", new_moderator_path %> -->
+
+  <div class="table-responsive">
+    <table class="table table-hover table-responsive">
+      <thead>
+        <tr>
+          <th scope="col">User #</th>
+          <th scope="col">Email</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Permissions</th>
+          <th scope="col">View</th>
+        </tr>
+      </thead>
+      <% @moderators.each do |moderator| %>
+        <%= render moderator %>
+      <% end %>
+    </table>
+  </div>
+</main>

@@ -82,6 +82,7 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 gem "fastimage"
 gem 'pry', '~> 0.13.1'
 gem "pundit"
+gem "select2-rails"
 gem 'shrine', '~> 3.0'
 
 # gem files from Mimi

@@ -20,15 +20,14 @@ module AltsHelper
 
 	def verification(alt)
 		if alt.verified == false
-        if super_admin
-        	link_to "Moderator Verify", edit_alt_path, class: "btn btn-sm btn-outline-primary"
-        else
-          "Modifiable"
-        end
+      if super_admin || referee
+        	link_to "Verify", edit_alt_path, class: "btn btn-sm btn-outline-primary"
       else
-        "Verified by Seven Army"
+        "Modifiable"
       end
-	
+    else
+      "Verified by Seven Army"
+    end
 	end
 
 	

@@ -1,9 +1,18 @@
-<div id="<%= dom_id altverify_me %>" class="p-2">
-  <%= link_to altverify_me, "aria-label": altverify_me.body do %>
-    <p><%= altverify_me.body %></p>
-    <%= image_tag altverify_me.image_url(:small), caption: altverify_me.title, alt: altverify_me.alt_texts.pluck(:body).last,height: altverify_me.image(:small).height, width: altverify_me.image(:small).width, class: "border rounded image img-fluid w-100" %>
-     <turbo-frame id="<%= dom_id(altverify_me) %>" loading="lazy" src="<%= verify_path %>">
+<div id="<%= dom_id alt %>" class="p-2">
+  <h3><%= alt.title %></h3>
+  <%= link_to alt, "aria-label": alt.body do %>
+
+    <%= image_tag alt.image_url(:small), caption: alt.title, alt: alt.alt_texts.pluck(:body).last, height: alt.image(:small).height, width: alt.image(:small).width, class: "border rounded image img-fluid w-100" %>
+     <turbo-frame id="<%= dom_id(alt) %>" loading="lazy" src="<%= verify_path %>">
         <%= render('common/spinner') %>
     </turbo-frame>
   <% end %>    
+  <p><strong>Alt text:</strong> <%= alt.alt_texts.pluck(:body).last %></p>
+  <span class="d-block mb-1">Tags: <%= linked_tag_list alt %></span>
+  <span class="d-block mb-1">URL: <%= alt.original_url %></span>
+  <span class="d-block mb-1">Source: <%= alt.original_source %></span>
+  <span class="d-block mb-1">Mime type: <%= alt.image.mime_type %></span>
+  <span class="d-block mb-1">Width: <%= alt.image(:small).width %> px </span>
+  <span class="d-block mb-1">Height: <%= alt.image(:small).height %> px </span>
+  <span class="d-block mb-1">User: <%= first_last_name(alt) %></span>
 </div>

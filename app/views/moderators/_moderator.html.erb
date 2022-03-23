@@ -1,0 +1,22 @@
+<div id="<%= dom_id moderator %>">
+  <tbody>
+    <tr>
+      <th scope="row"><%= moderator.user_id %></th>
+      <td><%= moderator.email %></td>
+      <td><%= moderator.first_name %></td>
+      <td><%= moderator.last_name %></td>
+      <% if moderator.user["contributor"] == true %>
+        <td>Contributor</td>
+      <% elsif moderator.user["super_user"] == true %>
+        <td>Super User</td>
+      <% elsif moderator.user["flag"] == true %>
+        <td>Flagged</td>
+      <% elsif moderator.user["referee"] == true %>
+        <td>Referee</td>
+      <% else %>
+        <td>None</td>
+      <% end %>
+      <td><%= link_to "Show", moderator %></td>
+    </tr>
+  </tbody>
+</div>

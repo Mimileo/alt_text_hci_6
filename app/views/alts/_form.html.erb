@@ -39,16 +39,15 @@
     <%= form.text_area :body, class: "form-control", rows: 10 %>
   </div>
   <div class="mb-3 bg-light border rounded border-1 p-3">
-    <% if super_admin %>
+    <% if super_admin || referee %>
       <div class="d-block">
         <%= form.label "Verify the ALT TEXT of this image.", style: "display: block" %>
         <%= form.check_box :verified %>
       </div>
-
     <% end %>
-  <% if user_signed_in? %>
-  <%= form.hidden_field :user_id, value: current_user.id %>
-  <% end %>
+    <% if user_signed_in? %>
+      <%= form.hidden_field :user_id, value: current_user.id %>
+    <% end %>
   </div>
   <div>
   <!-- Todo: add Spinner -->

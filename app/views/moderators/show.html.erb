@@ -1,0 +1,45 @@
+<main class="container">
+  <p style="color: green"><%= notice %></p>
+  <h1 class="border-top py-3">Viewing information for User <%= @moderator.user_id %> </h1>
+  <div class="row bg-light p-5 border rounded">
+    <p>Email: <%= @moderator.email %></p>
+    <p>Last name: <%= @moderator.first_name %></p>
+    <p>First name: <%= @moderator.last_name %></p>
+
+    <span class="d-inline">Permissions: </span>
+    <% if @moderator.user["contributor"] == true %>
+      <span class="d-inline">Contributor</span>
+    <% elsif @moderator.user["super_user"] == true %>
+      <span class="d-inline">Super User</span>
+    <% elsif @moderator.user["flag"] == true %>
+      <span class="d-inline">Flagged</span>
+    <% elsif @moderator.user["referee"] == true %>
+      <span class="d-inline">Referee</span>
+    <% else %>
+      <span class="d-inline">None</span>
+    <% end %>
+  </div>
+
+    <div class="row py-3">
+      <h3 class="border-top pt-3">Images by user</h3>
+      <% if @user.alts.present? %>
+        <% @user.alts.each do |alt| %>
+          <div class="col-2">
+            <%= link_to alt do %>
+              <%= image_tag alt.image_url(:small), class: "image-fluid w-100" %>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <p>no images posted yet</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <%= link_to "Edit this moderator", edit_moderator_path(@moderator), class: "btn btn-outline-primary" %> <br><br>
+    <%= link_to "Back to moderators", moderators_path %>
+
+    <%= button_to "Destroy this moderator", @moderator, method: :delete, data: { confirm:  "Are you sure you want to delete this user?  Deleting this user will delete all images associated with this user."}, class: "btn btn-danger mt-5" %>
+  </div>
+</main>

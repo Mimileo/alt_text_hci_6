@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :moderators
   resources :alt_texts
   resources :alts
   resources :verifcations

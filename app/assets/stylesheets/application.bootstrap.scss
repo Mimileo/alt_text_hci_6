@@ -44,3 +44,12 @@ a:hover {
   border: 0;
 }
 
+/*with a modal, the user should see the background text — JMG*/
+/*
+.modal-backdrop{
+  opacity:0; transition:opacity .2s;
+  &.in{opacity:.55;}
+}*/
+
+
+

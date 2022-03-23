@@ -4,10 +4,11 @@
   <% @seo_image = "#{@alt.image_url}" %>
   <% @seo_alt = "#{@alt.body}" %>
   <% @twitter_alt = "#{@alt.body}" %>
+  <% @seo_url = alt_url(@alt)%>
 <% end %>
 
-<section id="<%= dom_id alt %>">
-  <h1 class="display-1"><%= alt.title %></h1>
+<section id="<%= dom_id alt %>" class="mt-5">
+  <h1 class="display-5"><%= alt.title %></h1>
   <nav class="nav nav-pills nav-fill my-4">
     <a aria-labeledby="Share on Twitter" class="social-share" href="https://twitter.com/intent/tweet?url=<%= alt_url(@alt) %>" target="_blank">
       <i class="fa-brands fa-twitter fa-2x px-2 md-5"></i>
@@ -18,7 +19,7 @@
    </a>
 
    
-    <a aria-labeledby="Share on LinkedIn" class="social-share" href="https://www.linkedin.com/shareArticle?url=&amp<%= alt_url(@alt) %>" target="_blank">
+    <a aria-labeledby="Share on LinkedIn" class="social-share" href="http://www.linkedin.com/shareArticle?mini=true&url=<%= alt_url(@alt) %>" target="_blank">
       <i class="fa-brands fa-linkedin  fa-2x px-2 md-5"></i>
     </a>
 
@@ -26,10 +27,10 @@
       <i class="fa-solid fa-envelope  fa-2x px-2 md-5"></i>
     </a>
 
-     <a href="https://plus.google.com/share?url=${shareURL}" target="_blank" style="color : #555">
+     <a href="https://plus.google.com/share?url=<%= alt_url(@alt) %>" target="_blank" style="color : #555">
       <i id="googleplus" class="fa fa-google-plus-square fa-2x px-2 md-5"></i>
     </a>
-    <% if user_signed_in? %>
+    <% if user_signed_in? && alt.verified? && current_user.flag != true %>
       <%= link_to "Download", alt.image.url(response_content_disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
     <% end %>
   </nav>
@@ -37,6 +38,10 @@
     <div class="col-md-6 bg-light p-5 border rounded">
       <h2><u>Info.</u></h2>
       <%= verification(alt) %>
+      <% if user_signed_in? && (current_user == @alt_show.user) || super_admin || referee %>
+        <span class="d-block mb-1">created by <%= @alt_show.user["email"] %></span>
+      <% end %>
+      <span class="d-block mb-1">Created: <%= alt.created_at.strftime("%B #{alt.created_at.day.ordinalize}, %Y") %></span>
       <span class="d-block mb-1">Tags: <%= linked_tag_list alt %></span>
       <span class="d-block mb-1">URL: <%= alt.original_url %></span>
       <span class="d-block mb-1">Source: <%= alt.original_source %></span>

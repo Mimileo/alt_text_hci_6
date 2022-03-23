@@ -309,6 +309,7 @@ GEM
     searchkick (5.0.2)
       activemodel (>= 5.2)
       hashie
+    select2-rails (4.0.13)
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -401,6 +402,7 @@ DEPENDENCIES
   rails_12factor
   redis (~> 4.0)
   searchkick
+  select2-rails
   selenium-webdriver
   shrine (~> 3.0)
   sidekiq-cron

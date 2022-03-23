@@ -9,16 +9,14 @@ class AltsController < ApplicationController
   def index
     search = params[:query].present? ? params[:query] : nil
     if search.nil?
-     
-
-      if params[:verified] == "unverified" 
-        @alts = Alt.where(:verified => false)
+      if params[:tag].nil? == false 
+         @alts = Alt.search(params[:tag], fields:[:tags], operator: "or")
       else
         @alts = Alt.where(verified: true).shuffle.first(3)
       end
 
     else
-      if params[:verified] == "unverified" 
+      if params[:verify].present?
         @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
       else
         @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
@@ -43,26 +41,32 @@ class AltsController < ApplicationController
   end
 
   def verify
-    @alts = Alt.where(verified: false).shuffle.first(1)
-  end
-
-  def verify
-    @alts = Alt.where(verified: false).shuffle.first(1)
-    @alt = Alt.new
+    search = params[:query].present? ? params[:query] : nil
+    if search.nil?
+       @alts = Alt.where(verified: false).shuffle.first(1)
+       @alt = Alt.new
+    else
+      @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
+    end
+     @alt = Alt.new
   end
 
   # GET /alts/new
   def new
     @alt = Alt.new
+    authorize @alt
   end
 
   # GET /alts/1/edit
   def edit
+    @alt = Alt.find(params[:id])
+    authorize @alt
   end
 
   # POST /alts or /alts.json
   def create
     @alt = Alt.new(alt_params)
+    authorize @alt
 
     respond_to do |format|
       if @alt.save
@@ -71,17 +75,19 @@ class AltsController < ApplicationController
         @alt.save
        
        
-        # if image_modification_alt == false
-        #   format.js
-        #   format.html { render :new, status: :unprocessable_entity }
-        #   flash[:alert] = "The image was a duplicate. Please upload another image" 
-        # else
+        if image_modification_alt == false
+           format.js
+           format.html { render :new, status: :unprocessable_entity }
+           flash[:alert] = "The image was a duplicate. Please upload another image" 
+        else
+          @alt.verified = false
           @alt.save
           build_alt_text_versions
+         
           format.js
           format.html { redirect_to alt_url(@alt), notice: "Alt was successfully created." }
           format.json { render :show, status: :created, location: @alt }
-        # end
+         end
       else
         format.js
         format.html { render :new, status: :unprocessable_entity }
@@ -92,8 +98,9 @@ class AltsController < ApplicationController
 
   # PATCH/PUT /alts/1 or /alts/1.json
   def update
+    authorize @alt
     respond_to do |format|
-      if @alt.update(alt_params)
+      if @alt.update(update_alt_params)
         # if image_modification_alt == false
         #   format.js
         #   format.html { render :update, status: :unprocessable_entity }
@@ -114,7 +121,6 @@ class AltsController < ApplicationController
   def is_duplicate
     a = Alt.find_by(id: @alt.id)
     file1 = URI.parse(a.image_url).open
-    binding.pry
     puts file1.class
    
     img_mod = Phashion::Image.new(file1.path)
@@ -140,7 +146,6 @@ class AltsController < ApplicationController
   def image_modification_alt
     if is_duplicate == true
       @alt.destroy
-      #redirect_to alts_url
       return false
     end
     #img2 = Alt.find_by(id: 10)
@@ -244,7 +249,7 @@ class AltsController < ApplicationController
       end
      
       #a = Alt.where(original_url: c[:original_url]).first_or_create
-      a = Alt.where(title: c[:title], user_id: 1, body: c[:body], original_url: c[:original_url], original_source: c[:original_source]).first_or_create
+      a = Alt.where(title: c[:title], user_id: 1, body: c[:body], original_url: c[:original_url], original_source: c[:original_source], verified: false).first_or_create
 
       #puts a.title
       
@@ -253,6 +258,8 @@ class AltsController < ApplicationController
       a.image_derivatives!
       a.image_attacher.add_metadata(caption: a.title, alt: a.body)
       a.save
+
+      
       i += 1
     end
 
@@ -267,6 +274,10 @@ class AltsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
+
+    def update_alt_params
+      params.require(:alt).permit(:body, :image, :title, :original_url, :original_source, :verified, :tag_list)
+    end
 
     def alt_params
       params.require(:alt).permit(:body, :image, :title, :original_url, :original_source, :verified, :tag_list, :user_id)

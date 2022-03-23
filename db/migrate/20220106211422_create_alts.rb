@@ -5,7 +5,7 @@ class CreateAlts < ActiveRecord::Migration[7.0]
       t.string :title
       t.string :original_url
       t.string :original_source
-      t.boolean :verified
+      t.boolean :verified, :default => false
       t.belongs_to :user, null: false, foreign_key: true
 
       t.timestamps

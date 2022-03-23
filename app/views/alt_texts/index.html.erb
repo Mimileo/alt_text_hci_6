@@ -2,13 +2,25 @@
 
 <h1>Alt texts</h1>
 
-<div id="alt_texts">
+<div id="alts">
 <% if !@alt_texts.nil? %>
-  <% @alt_texts.each do |alt_text| %>
-    <%= render alt_text %>
-    <p>
-      <%= link_to "Show this alt text", alt_text %>
-    </p>
+<% @alt_texts.each do |alt_text| %>
+ 
+     <div class="col-md-6">
+      <%= link_to alt_text.alt.image_url(:small) do %>
+        <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "img-fluid", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
+      <% end %>
+    </div>
+
+     <div id="alt_texts">
+      <% alt_text.alt.alt_texts.each do |alt_text| %>
+        <%= render alt_text %>
+        <p>
+          <%= link_to "Show this alt text", alt_text %>
+        </p>
+      <%end%>
+    </div>
+ 
   <% end %>
 <% end %>
 </div>

@@ -13,15 +13,15 @@ class ApplicationPolicy
   end
 
   def show?
-    true
+    (user.present? && @user.flag != true) || true
   end
 
   def create?
-    user.present?
+    (user.present? && user.flag != true)
   end
 
   def new?
-    true
+    create?
   end
 
   def update?

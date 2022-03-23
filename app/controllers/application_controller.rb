@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
 	before_action :configure_permitted_parameters, if: :devise_controller?
 	include Pundit
   helper_method :super_admin
+  helper_method :referee
+  helper_method :contributor
 
   protected
 
@@ -15,7 +17,23 @@ class ApplicationController < ActionController::Base
   end
 
   def super_admin
-    if user_signed_in? && current_user.super_user == true && current_user.email == "jmgrant702@gmail.com"
+    if user_signed_in? && current_user.super_user == true && (current_user.email == "kate@seven.army" || current_user.email == "mleon11@ucsc.edu")
+      current_user
+    else
+      nil
+    end
+  end
+
+  def referee
+    if user_signed_in? && current_user.referee == true
+      current_user
+    else
+      nil
+    end
+  end
+
+  def contributor
+    if user_signed_in? && current_user.contributor == true
       current_user
     else
       nil
