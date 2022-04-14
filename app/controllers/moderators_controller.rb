@@ -14,7 +14,7 @@ class ModeratorsController < ApplicationController
       @users = @moderators
     end
    
-    #authorize @moderators
+    authorize @moderators
   end
 
   # GET /moderators/1 or /moderators/1.json

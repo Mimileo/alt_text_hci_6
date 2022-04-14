@@ -5,8 +5,9 @@ class AltTextsController < ApplicationController
 
   # GET /alt_texts or /alt_texts.json
   def index
-    @alt_texts = AltText.select('DISTINCT alt_id')
-    #@alt_texts = policy_scope(AltText)
+    #@alt_texts = AltText.select('DISTINCT alt_id')
+    @alt_texts = policy_scope(AltText.select('DISTINCT alt_id'))
+    authorize @alt_texts
   end
 
   # GET /alt_texts/1 or /alt_texts/1.json
@@ -16,10 +17,12 @@ class AltTextsController < ApplicationController
   # GET /alt_texts/new
   def new
     @alt_text = AltText.new
+    authorize @alt_text
   end
  
   # GET /alt_texts/1/edit
   def edit
+    authorize @alt_text
   end
 
  
@@ -54,6 +57,7 @@ class AltTextsController < ApplicationController
 
   # DELETE /alt_texts/1 or /alt_texts/1.json
   def destroy
+    authorize @alt_text
     @alt_text.destroy
 
     respond_to do |format|

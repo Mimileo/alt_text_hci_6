@@ -1,18 +1,21 @@
+<main class="container-fluid pt-3 p-5">
 
+<h1 class="text-left px-5">Alt texts</h1>
 
-<h1>Alt texts</h1>
-
-<div id="alts">
+  <hr class="border-bottom border-muted my-5">
+   
+     
+<div id="alts" class="row col-lg-12 p-5">
 <% if !@alt_texts.nil? %>
 <% @alt_texts.each do |alt_text| %>
  
-     <div class="col-md-6">
+     <div class="col-lg-3 mb-5">
       <%= link_to alt_text.alt.image_url(:small) do %>
-        <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "img-fluid", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
+        <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
       <% end %>
     </div>
 
-     <div id="alt_texts">
+     <div id="alt_texts" class="col-lg-3">
       <% alt_text.alt.alt_texts.each do |alt_text| %>
         <%= render alt_text %>
         <p>
@@ -26,3 +29,4 @@
 </div>
 
 <%= link_to "New alt text", new_alt_text_path %>
+</div>

@@ -2,14 +2,14 @@ class AltTextPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.super_user?
+      if user.super_user? || user.referee?
         scope.all
       end
     end
   end
 
   def new?
-    user.present? && user.super_user == true
+    user.present? && user.super_user == true || user.referee == true
   end
 
   def create?

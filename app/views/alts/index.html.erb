@@ -10,8 +10,8 @@
       <% end %>
     </div>
     <hr class="border-bottom border-muted my-5">
-    <div class="row">
-      <div class="col-lg-10">
+    <div class="row g-5">
+      <div class="col-lg-9">
         <div id="alts" class="row">
           <% @alts.each do |alt| %>
            <% if alt.verified %>
@@ -22,12 +22,13 @@
         <%end%>
         </div>
       </div>
-    </div>
-    <div class="col-lg-2 position-absolute bottom-0 end-0">
-      <div id= "twitter-feed" class="row">
-          <a class="twitter-timeline" data-height="330" data-width="220" href="https://twitter.com/bts_bighit?ref_src=twsrc%5Etfw">Tweets by bts_bighit</a> 
+    
+    <div class="col-lg-3">
+      <div id= "twitter-feed" class="position-sticky" style="top: 2rem">
+          <a class="twitter-timeline" data-height="330"  style="width:100%; min-width: 300px;" href="https://twitter.com/bts_bighit?ref_src=twsrc%5Etfw">Tweets by bts_bighit</a> 
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
+    </div>
     </div>
   </section>
 </main>
