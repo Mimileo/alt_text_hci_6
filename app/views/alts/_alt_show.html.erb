@@ -9,22 +9,22 @@
 
 <section id="<%= dom_id alt %>" class="mt-5">
   <h1 class="display-5"><%= alt.title %></h1>
-  <nav class="nav nav-pills nav-fill my-4">
+  <nav class="nav nav-pills nav-fill mt-5">
     <a aria-labeledby="Share on Twitter" class="social-share" href="https://twitter.com/intent/tweet?url=<%= alt_url(@alt) %>" target="_blank">
-      <i class="fa-brands fa-twitter fa-2x px-2 md-5"></i>
+      <i class="fa fa-twitter-square fa-2x px-2 md-5"></i>
     </a>
 
     <a aria-labeledby="Share on Facebook" class="social-share" href="https://www.facebook.com/sharer/sharer.php?u=<%= alt_url(@alt) %>" target="_blank">
-      <i class="fa-brands fa-facebook fa-2x px-2 md-5"></i>
+      <i class="fa fa-facebook-square fa-2x px-2 md-5"></i>
    </a>
 
    
     <a aria-labeledby="Share on LinkedIn" class="social-share" href="http://www.linkedin.com/shareArticle?mini=true&url=<%= alt_url(@alt) %>" target="_blank">
-      <i class="fa-brands fa-linkedin  fa-2x px-2 md-5"></i>
+      <i class="fa fa-linkedin-square  fa-2x px-2 md-5"></i>
     </a>
 
     <a aria-labeledby="Share on Email" class="social-share" href="mailto:?subject=<%=alt.title%>&body=<%= alt_url(@alt) %>" target="_blank">
-      <i class="fa-solid fa-envelope  fa-2x px-2 md-5"></i>
+      <i class="fa fa-solid fa-envelope  fa-2x px-2 md-5"></i>
     </a>
 
      <a href="https://plus.google.com/share?url=<%= alt_url(@alt) %>" target="_blank" style="color : #555">

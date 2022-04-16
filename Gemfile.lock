@@ -173,6 +173,8 @@ GEM
     faraday-retry (1.0.3)
     fastimage (2.2.6)
     ffi (1.15.5)
+    font-awesome-rails (4.7.0.8)
+      railties (>= 3.2, < 8.0)
     fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
@@ -388,6 +390,7 @@ DEPENDENCIES
   elasticsearch (< 7.14)
   faker!
   fastimage
+  font-awesome-rails
   image_processing (~> 1.8)
   jbuilder
   jsbundling-rails
