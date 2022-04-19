@@ -22,7 +22,7 @@
      <label for="title">Title<span style="color:red"> *</span></label>
   </div>
   <div class="form-floating mb-3">
-    <%= form.text_field :tag_list, id: "tags", class: "form-control d-block", placeholder: "Tags", required: true %>
+    <%= form.text_field :tag_list, value: @alt.tag_list.to_s.split(" "), id: "tags", class: "form-control d-block", placeholder: "Tags", required: true %>
      <label for="tags">Tags<span style="color:red"> *</span></label>
   </div>
   <div class="form-floating mb-3">

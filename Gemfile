@@ -96,3 +96,4 @@ gem "phashion", "~> 1.2.0"
 gem "searchkick"
 gem  "elasticsearch", "< 7.14"   # select one
 gem 'rails_12factor', group: :production
+gem "font-awesome-rails"

@@ -3,7 +3,10 @@ module AltsHelper
 		list = alt.tag_list.map do |tag_name|
       		link_to tag_name, root_path(tag: tag_name)
     	end
-    	safe_join list, ", "
+		
+    	safe_join list,", "
+		
+		
 	end
 
 	def alt_user(alt)
