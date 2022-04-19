@@ -113,6 +113,7 @@ class AltsController < ApplicationController
           if @alt.flag == false
             flag_alt_image
           end
+          
          
           format.html { redirect_to alt_url(@alt), notice: "Alt was successfully updated." }
           format.json { render :show, status: :ok, location: @alt }
