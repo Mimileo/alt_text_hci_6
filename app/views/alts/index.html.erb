@@ -1,6 +1,6 @@
 <main class="container-fluid pt-3">
   <section class="container">
-    <div class="col-8 mt-5 pt-5 mx-auto ">
+    <div class="col-8 mt-2 mx-auto ">
       <%= form_with url: '/alts', method: :get do |form| %>
         <div class="input-group input-group-lg">
           <%= form.label :query, "Search for:", class: "sr-only" %>
@@ -11,19 +11,19 @@
     </div>
     <hr class="border-bottom border-muted my-5">
     <div class="row g-5">
-      <div class="col-lg-9">
+      <div class="col-md-10">
         <div id="alts" class="row">
           <% @alts.each do |alt| %>
            <% if alt.verified %>
-            <div class="col-lg-4">
+            <div class="col-md-4">
                 <%= render alt %>
             </div>
           <% end %>
         <%end%>
         </div>
       </div>
-    
-    <div class="col-lg-3">
+    <div class="col-md-1"></div>
+    <div class="col-md-1">
       <div id= "twitter-feed" class="position-sticky" style="top: 2rem">
           <a class="twitter-timeline" data-height="330"  style="width:100%; min-width: 300px;" href="https://twitter.com/bts_bighit?ref_src=twsrc%5Etfw">Tweets by bts_bighit</a> 
           <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

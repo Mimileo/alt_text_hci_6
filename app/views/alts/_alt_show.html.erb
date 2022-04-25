@@ -1,10 +1,9 @@
-<% @title = "#{@alt.title}" %>
-<% @seo_description = "#{@alt.updated_at.strftime("%B #{@alt.updated_at.day.ordinalize}, %Y")}... #{@alt.title} #{strip_tags(@alt.body.truncate(130)).html_safe}" %>
-<% if @alt.image.present? %>
-  <% @seo_image = "#{@alt.image_url}" %>
-  <% @seo_alt = "#{@alt.body}" %>
-  <% @twitter_alt = "#{@alt.body}" %>
-  <% @seo_url = alt_url(@alt)%>
+<% @title = "#{alt.title}" %>
+<% @seo_description = "#{alt.updated_at.strftime("%B #{alt.updated_at.day.ordinalize}, %Y")}... #{alt.title} #{strip_tags(alt.body.truncate(130)).html_safe}" %>
+<% if alt.image.present? %>
+  <% @seo_image = "#{alt.image_url(:small)}" %>
+  <% @twitter_alt = "#{alt.body}" %>
+  <% @seo_url = alt_url(alt )%>
 <% end %>
 
 <section id="<%= dom_id alt %>" class="mt-5">

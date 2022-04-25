@@ -1,7 +1,5 @@
-<main class="container-fluid pt-3">
-  <section class="container">
-
-    <div class="col-8 mt-5 pt-3 mx-auto">
+<main class="container pt-3">
+    <div class="col-8 mt-2 mx-auto">
       <%= form_with url: verify_path, method: :get do |form| %>
         <div class="input-group input-group-lg">
           <%= form.label :query, "Search for:", class: "sr-only" %>
@@ -11,31 +9,46 @@
       <% end %>
     </div>
     <hr class="border-bottom border-muted my-2">
-    <div class="text-center">
+    <div class="text-center my-5">
       <a href="<%= verify_path %>" class="fs-3">
-        <i class="fa-solid fa-arrows-rotate"></i> Refresh 
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+          <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+          <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+        </svg>Refresh 
       </a>
     </div>
     <div class="row g-4">
-
-      <div class="col-lg-9">
+      <div class="col-md-10">
         <div id="altverify_me" class="row">
           <% @alts.each do |altverify_me| %>
-          <% if altverify_me.verified == false %>
-            <div class="col-lg-6 mx-auto">
-                <%= render "altverify_me", alt: altverify_me %>
-            </div>
-            <%end%>
+            <% if altverify_me.verified == false %>
+              <div class="row">
+                <div class="col-6 mx-auto d-md-none d-sm-block">
+                  <%= image_tag altverify_me.image_url(:small), caption: altverify_me.title, alt: altverify_me.alt_texts.pluck(:body).last, height: altverify_me.image(:small).height, width: altverify_me.image(:small).width, class: "border rounded image img-fluid w-100" %>
+                     <turbo-frame id="<%= dom_id(altverify_me) %>" loading="lazy" src="<%= verify_path %>">
+                        <%= render('common/spinner') %>
+                    </turbo-frame>
+                </div>
+                <div class="col-md-6">
+                  <%= render "verify_form", alt: altverify_me %>
+                </div>
+                <div class="col-md-6 d-none d-md-block">
+                  <%= image_tag altverify_me.image_url(:small), caption: altverify_me.title, alt: altverify_me.alt_texts.pluck(:body).last, height: altverify_me.image(:small).height, width: altverify_me.image(:small).width, class: "border rounded image img-fluid w-100" %>
+                     <turbo-frame id="<%= dom_id(altverify_me) %>" loading="lazy" src="<%= verify_path %>">
+                        <%= render('common/spinner') %>
+                    </turbo-frame>
+                </div>
+              </div>
+            <% end %>
           <% end %>
         </div>
       </div>
-    
-    <div class="col-lg-3">
-      <div id= "twitter-feed" class="position-sticky" style="top: 2rem">
-          <a class="twitter-timeline" data-height="330" style="width:100%; min-width: 300px;" href="https://twitter.com/bts_bighit?ref_src=twsrc%5Etfw">Tweets by bts_bighit</a> 
-          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-          </div>
+      <div class="col-1"></div>
+      <div class="col-md-1">
+        <div id= "twitter-feed" class="position-sticky" style="top: 2rem">
+            <a class="twitter-timeline" data-height="330" style="width:100%; min-width: 300px;" href="https://twitter.com/bts_bighit?ref_src=twsrc%5Etfw">Tweets by bts_bighit</a> 
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
       </div>
     </div>
-  </section>
 </main>

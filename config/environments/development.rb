@@ -62,7 +62,7 @@ Rails.application.configure do
   config.assets.quiet = true
 
   # ngrok host
-  config.hosts << "f2d4-172-58-43-38.ngrok.io"
+  config.hosts << "6ad2-2601-646-8080-66c0-91ed-c71-c39-e964.ngrok.io"
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
