@@ -1,8 +1,14 @@
 <div class="container-fluid bg-light">
   <div class="container py-5">
     <div class="row">
-      <div class="col-lg-6 bg-white border rounded p-5 mx-auto">
-        <h1>Edit <%= @alt.title %></h1>
+      <div class="col-md-6 bg-white border rounded p-5 mx-auto">
+        <h1><%= @alt.title %></h1>
+
+        <% if @alt.image_url.present? %>
+          <div class="col-md-6 d-md-none d-sm-block">
+            <%= image_tag @alt.image_url(:small), class: "image-fluid w-100 mb-5" %>
+          </div>
+        <% end %>
 
         <%= render "form", alt: @alt %>
 
@@ -13,7 +19,7 @@
         </div>
       </div>
       <% if @alt.image_url.present? %>
-        <div class="col-lg-6">
+        <div class="col-md-6 d-none d-md-block">
           <%= image_tag @alt.image_url(:small), class: "image-fluid w-100" %>
         </div>
       <% end %>

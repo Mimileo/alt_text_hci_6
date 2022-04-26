@@ -30,9 +30,6 @@ class AltsController < ApplicationController
     #@alt = Alt.new
   end
 
- 
-
-
   # GET /alts/1 or /alts/1.json
   def show
     @alt_show = Alt.find(params[:id])
@@ -71,8 +68,6 @@ class AltsController < ApplicationController
       if @alt.save
         @alt.image_derivatives!
         @alt.image_attacher.add_metadata(caption: @alt.title, alt: @alt.body)
-        #@alt.image_attacher.file.add_metadata(caption: @alt.title, alt: @alt.body)
-        #@alt.image_attacher.write
         @alt.save
        
         if image_modification_alt == false

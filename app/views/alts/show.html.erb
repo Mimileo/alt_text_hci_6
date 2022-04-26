@@ -1,28 +1,10 @@
 <main class="container">
   <%= render 'alt_show', alt: @alt %>
   <% if user_signed_in? && current_user.flag != true %>
-     <%= link_to '<button type="button" class="btn mt-3 btn-primary">Participate*</button>'.html_safe, edit_alt_path %>
-
-    <!--<button type="button" class="btn mt-3 btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Participate*
-    </button>-->
+     <%= link_to 'Participate*', edit_alt_path, class: "text-white btn mt-3 btn-primary" %>
     <p class="text-muted">*Help Seven Army improve the title, tags, source, alt text, and etc. of this image</p> 
-    <div class="modal fade shadow-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><%= @alt.title %></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <%= render "form", alt: @alt %> 
-          </div>
-        </div>
-      </div>
-    </div>
     <% if user_signed_in? && (current_user == @alt_show.user) || super_admin %>
       <%= button_to 'Delete', @alt, method: :delete, class: "btn btn-outline-danger", data: { confirm: 'Are you sure you want to delete this image?' } %>
-
     <% end %>
   <% else %>
 

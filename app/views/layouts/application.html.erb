@@ -10,15 +10,12 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image:alt" content="<%= @twitter_alt %>">
+    <meta name="twitter:image:src" content="<%= @seo_image %>"/>
     <meta name="twitter:description" content="<%= @seo_description %>"/>
     <meta name="twitter:title" content="<%= @title %>" />
-    <meta name="twitter:site" content="@hrsimple" />
     <meta name="twitter:domain" content="seven.army" />
 
-    <% if @seo_image.present? %>
-      <meta name="twitter:image:src" content="<%= @seo_image %>"/>
-      <meta name="twitter:image:alt" content="<%= @twitter_alt %>">
-    <% end %>
     <meta property="og:type"          content="Article" />
     <meta property="og:title"         content="<%= @title %>" />
     <meta property='og:url' content="<%= @seo_url %>" />

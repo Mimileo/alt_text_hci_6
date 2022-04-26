@@ -1,4 +1,5 @@
 @import "bootstrap/scss/bootstrap";
+@import "actiontext.css";
 
 body {
   margin-bottom: 60px;
@@ -9,6 +10,9 @@ a {
 
 a:hover {
   color: darken($purple, 10%) !important;
+  .btn-primary {
+    color: #ffffff !important;
+  }
 }
 
 .btn-primary {
@@ -21,6 +25,14 @@ a:hover {
     #ffffff
   );
   color: #ffffff;
+
+  a {
+    color: #ffffff;
+    }
+    
+  a:hover {
+    color: #ffffff !important;
+  }
 }
 
 .btn-outline-primary {
