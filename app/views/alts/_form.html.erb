@@ -13,6 +13,8 @@
 
   <div class="mb-3">
     <label for="formFile" class="form-label">Image for Seven Army</label>
+      <div id="preview" style="width:100px;height:100px;">
+    </div>
     <%= form.hidden_field :image, value: form.object.cached_image_data %>
     <%= form.file_field :image, class: "btn btn-primary", class: "form-control", type: "file", id: "formFile" %>
   </div>
@@ -58,4 +60,48 @@
    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
    
   </div>
+  <script>
+$(window).on("load", function() {
+  $('#formFile').on('change', function(event) {
+    var files = event.target.files;
+    var image = files[0]
+    var formData = new FormData()
+    console.log(image.size);
+    var reader = new FileReader();
+    reader.onload = function(file) {
+      var img = new Image();
+      console.log(file);
+      <% @Alt.each do |a| %> 
+     <td><%= a.title %></td>
+
+      <% end %>
+      
+      
+     
+      img.src = file.target.result;
+      $('#preview').html(img);
+      formData.append('image', image)
+      console.log(img.width);
+       fetch('/alts', {
+            method: 'POST',
+            body: formData
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            if (data.errors) {
+              alert(data.errors)
+            }
+            else {
+              console.log(data)
+            }
+        });
+    }
+    reader.readAsDataURL(image);
+    console.log(files);
+
+    
+  });
+});
+
+</script>
 <% end %>
