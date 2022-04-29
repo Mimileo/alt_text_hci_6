@@ -13,7 +13,7 @@
 
   <div class="mb-3">
     <label for="formFile" class="form-label">Image for Seven Army</label>
-      <div id="preview" style="width:100px;height:100px;">
+      <div id="preview" class="container-fluid" style="width:100px;height:100px;">
     </div>
     <%= form.hidden_field :image, value: form.object.cached_image_data %>
     <%= form.file_field :image, class: "btn btn-primary", class: "form-control", type: "file", id: "formFile" %>
