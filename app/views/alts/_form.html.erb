@@ -58,12 +58,15 @@
   <div>
   <!-- Todo: add Spinner -->
    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
-   
+   <%= content_tag :div, class: 'alts', data: {alts: Alt.all} do %>
+   <%end%>
+
   </div>
 
   <script>
    var alts = '<%= Alt.all.map { |u| u.title } %>';
-   console.log(alts);
+    console.log($('.alts').data('alts'));
+
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
     var files = event.target.files;
