@@ -79,7 +79,7 @@ $(window).on("load", function() {
       $('#preview').html(img);
       formData.append('image', image)
       console.log(img.width);
-       fetch('/images/', {
+       fetch('/images/new', {
             method: 'POST',
             //data: { alt: { track_id: trackId } }
 
