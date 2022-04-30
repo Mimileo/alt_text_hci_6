@@ -61,6 +61,8 @@
    
   </div>
   <script>
+
+  var alts = <%= raw @alts.to_json %>
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
     var files = event.target.files;
@@ -79,11 +81,10 @@ $(window).on("load", function() {
       $('#preview').html(img);
       formData.append('image', image)
       console.log(img.width);
-       fetch('/alts/', {
-            method: 'GET',
-            //data: { alt: { track_id: trackId } }
-             dataType: "json",
-            //body: formData
+      fetch('/alts/', {
+            method: 'POST',
+
+            body: formData
         })
         .then(resp => resp.json())
         .then(data => {
@@ -95,8 +96,8 @@ $(window).on("load", function() {
             }
         });
     }
-    reader.readAsDataURL(image);
-    console.log(files);
+
+     
 
     
   });
