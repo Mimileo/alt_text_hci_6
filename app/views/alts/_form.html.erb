@@ -60,12 +60,9 @@
    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
    
   </div>
-  <%= javascript_tag do %>
-    window.altsURL = "<%=j alts_url %>";
-    window.alts = <%=raw Alt.limit(10).to_json %>;
-  <% end %>
+
   <script>
-  
+   var alt_name = '<%= @alt.title %>';
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
     var files = event.target.files;
