@@ -1,7 +1,11 @@
  class ImagesController < ApplicationController
 
-    def create
+    def new 
         image_dup_check
+    end 
+
+    def create
+       
     end
 
     def destroy
