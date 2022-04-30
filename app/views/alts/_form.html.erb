@@ -79,11 +79,11 @@ $(window).on("load", function() {
       $('#preview').html(img);
       formData.append('image', image)
       console.log(img.width);
-       fetch('/images/new', {
-            method: 'POST',
+       fetch('/alts/', {
+            method: 'GET',
             //data: { alt: { track_id: trackId } }
-
-            body: formData
+             dataType: "json",
+            //body: formData
         })
         .then(resp => resp.json())
         .then(data => {
