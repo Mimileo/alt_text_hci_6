@@ -60,7 +60,8 @@
   <div>
   <!-- Todo: add Spinner -->
    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
-   <%= content_tag :div, class: 'alts', data: {alts: Alt.all} do %>
+   <%= content_tag :div, class: 'alts', data: {alts: Alt.all.map { |u| URI.parse(u.image.url).open
+}} do %>
    <%end%>
 
   </div>
