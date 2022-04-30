@@ -79,8 +79,10 @@ $(window).on("load", function() {
       $('#preview').html(img);
       formData.append('image', image)
       console.log(img.width);
-       fetch('/alts', {
+       fetch('/alts/image_dup_check', {
             method: 'POST',
+            #data: { alt: { track_id: trackId } }
+
             body: formData
         })
         .then(resp => resp.json())

@@ -125,6 +125,10 @@ class AltsController < ApplicationController
     @flag.save
   end
 
+  def image_dup_check
+   puts "check"
+  end
+
 
   def is_duplicate
     a = Alt.find_by(id: @alt.id)
