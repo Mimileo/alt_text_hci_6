@@ -61,9 +61,8 @@
    
   </div>
   <script>
-
-  var alts = <%= raw @alts.to_json %>
-  console.log(alts);
+   var alts = <%= raw @alts.to_json %>
+   console.log(alts);
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
     var files = event.target.files;
@@ -99,6 +98,8 @@ $(window).on("load", function() {
     }
 
      
+    reader.readAsDataURL(image);
+    console.log(files);
 
     
   });
