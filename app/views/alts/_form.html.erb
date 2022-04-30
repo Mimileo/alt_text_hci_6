@@ -67,9 +67,10 @@
   </div>
 
   <script>
-   var alts = '<%= Alt.all.map { |u| URI.parse(u.image.url).open
-} %>';
-    console.log($('.alts').data('alts'));
+   //var alts = '<%= Alt.all.map { |u| URI.parse(u.image.url).open
+//} %>';
+    console.log($('.alts').data('alts')[0]);
+    console.log($('.alts').data('alts')[0].size);
 
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
