@@ -62,7 +62,8 @@
   </div>
 
   <script>
-   var alt_name = '<%= @alt.title %>';
+   var alts = '<%= Alt.all %>';
+   console.log(alts);
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
     var files = event.target.files;
