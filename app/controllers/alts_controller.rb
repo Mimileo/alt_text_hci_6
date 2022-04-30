@@ -50,6 +50,7 @@ class AltsController < ApplicationController
 
   # GET /alts/new
   def new
+    image_dup_check
     @alt = Alt.new
     authorize @alt
   end
