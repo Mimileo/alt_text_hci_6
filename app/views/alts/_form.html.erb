@@ -74,21 +74,16 @@
     console.log($('.alts').data('alts')[0]);
     //r.readAsDataURL($('.alts').data('alts')[0]);
     console.log(r.result);
-    fetch($('.alts').data('alts')[0]).then(res => res.blob()).then(blobFile => 
-      new File([blobFile], $('.alts').data('alts').substring(url.lastIndexOf('/')+1), { type: "image/png" }));
+    fetch($('.alts').data('alts')[0]).then(res => res.blob()).then(blobFile => {
+      var db_file = new File([blobFile], $('.alts').data('alts').substring(url.lastIndexOf('/')+1), { type: "image/png" })
+      console.log(db_file)
+    }
+      
+    );
     
       
     console.log(db_file)
-   fetch('test.csv').then(function(response) {
-    if (response.status !== 200) {
-        throw response.status;
-        }
-        return response.text();
-    }).then(function(file_content) {
-        console.log(file_content);
-    }).catch(function(status) {
-        console.log('Error ' + status);
-    });
+   
 
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
