@@ -86,17 +86,14 @@
     var f = new File([blob], 'sample.jpeg', {
       type: blob.type,
   });
+   var image2 = f
 
   console.log(f);
-   console.log(f)
+   
      pHash.hash(f).then(hash => {
           console.log(hash.value) 
-        })
-   /* var f = new File( new Blob([blob]), "temp.png", { lastModified: new Date().getTime(), type:"image/png" })
-    console.log(f)
-     pHash.hash(f).then(hash => {
-          console.log(hash.value) 
-        })*/
+    })
+   
 });
    
     
@@ -139,9 +136,9 @@ $(window).on("load", function() {
 
     
     reader.readAsDataURL(image);
-    pHash.hash(image).then(hash => {
-          console.log(hash.value) 
-        })
+    pHash.compare(image, image2).then(distance => {
+  console.log(distance) 
+})
     console.log(files);
 
     
