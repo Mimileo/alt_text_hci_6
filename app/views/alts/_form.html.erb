@@ -88,13 +88,13 @@
      f = new File([blob], 'sample.jpeg', {
       type: blob.type,
   });
-   image2 = f
+   image2 = f;
 
   console.log(f);
    
      pHash.hash(f).then(hash => {
           console.log(hash.value) 
-    })
+    });
    
 });
    
@@ -139,8 +139,8 @@ $(window).on("load", function() {
     
     reader.readAsDataURL(image);
     pHash.compare(image, image2).then(distance => {
-  console.log(distance) 
-})
+      console.log(distance) 
+    });
     console.log(files);
 
     
