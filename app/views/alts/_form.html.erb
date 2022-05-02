@@ -60,7 +60,7 @@
   <div>
   <!-- Todo: add Spinner -->
    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
-   <%= content_tag :div, class: 'alts', data: {alts: Alt.all.map { |u| u.image
+   <%= content_tag :div, class: 'alts', data: {alts: Alt.all.map { |u| u
 }} do %>
    <%end%>
 
@@ -79,7 +79,7 @@
             .then(function(buf){return new File([buf], fileName, {type:mimeType});})
         );
     }
-  srcToFile( alt.image_url, alt.id, alt.mime_type)
+  srcToFile( alt.image_data_uri, alt.image.id, alt.image.mime_type)
   .then(function(file){
     console.log(file)
       pHash.hash(file).then(hash => {

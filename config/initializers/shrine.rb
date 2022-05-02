@@ -3,6 +3,8 @@ require "shrine/storage/file_system"
 
 Shrine.plugin :derivatives
 Shrine.plugin :activerecord
+Shrine.plugin plugin :data_uri
+
 
   require "shrine/storage/s3"
   require 'shrine/plugins/url_options'
