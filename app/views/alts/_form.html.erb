@@ -85,12 +85,6 @@
       console.log(file);
   })
    
-    /*fetch($('.alts').data('alts')[0]).then(res => res.blob()).then(blobFile => {
-      var db_file = new File([blobFile], $('.alts').data('alts').substring(url.lastIndexOf('/')+1), { type: "image/png" })
-      console.log(db_file)
-    }
-      
-    );*/
     
       
    
@@ -129,8 +123,11 @@ $(window).on("load", function() {
         });
     }
 
-     
+    
     reader.readAsDataURL(image);
+    pHash.hash(image]).then(hash => {
+          console.log(hash.value) 
+        })
     console.log(files);
 
     
