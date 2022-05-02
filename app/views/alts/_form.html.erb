@@ -60,7 +60,7 @@
   <div>
   <!-- Todo: add Spinner -->
    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
-   <%= content_tag :div, class: 'alts', data: {alts: Alt.all.map { |u| u
+   <%= content_tag :div, class: 'alts', data: {alts: Alt.all.map { |u| u.image.url
 }} do %>
    <%end%>
 
@@ -78,7 +78,7 @@
   .then(res => res.blob()) 
   .then(blob => {
     
-    var f = new File([blob], alt.title, { lastModified: new Date().getTime(), type: blob.type })
+    var f = new File([blob], "temp", { lastModified: new Date().getTime(), type: blob.type })
     console.log(f)
      pHash.hash(f).then(hash => {
           console.log(hash.value) 
