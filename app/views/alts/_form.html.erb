@@ -83,6 +83,15 @@
     var fd = new FormData()
   fd.append('image', blob, 'sample')
     console.log(blob)
+    var f = new File([blob], 'sample.jpeg', {
+      type: blob.type,
+  });
+
+  console.log(f);
+   console.log(f)
+     pHash.hash(f).then(hash => {
+          console.log(hash.value) 
+        })
    /* var f = new File( new Blob([blob]), "temp.png", { lastModified: new Date().getTime(), type:"image/png" })
     console.log(f)
      pHash.hash(f).then(hash => {
