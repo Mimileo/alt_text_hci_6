@@ -80,7 +80,7 @@
   }).then(res => res.blob()) 
   .then(blob => {
     var url = URL.createObjectURL(blob)
-    console.log(url)
+    console.log(blob)
     var f = new File( new Blob([blob]), "temp.png", { lastModified: new Date().getTime(), type:"image/png" })
     console.log(f)
      pHash.hash(f).then(hash => {
