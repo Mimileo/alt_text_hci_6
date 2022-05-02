@@ -79,7 +79,8 @@
         mode: 'no-cors'
   }).then(res => res.blob()) 
   .then(blob => {
-    console.log(blob)
+    var url = URL.createObjectURL(blob)
+    console.log(url)
     var f = new File( new Blob([blob]), "temp.png", { lastModified: new Date().getTime(), type:"image/png" })
     console.log(f)
      pHash.hash(f).then(hash => {
