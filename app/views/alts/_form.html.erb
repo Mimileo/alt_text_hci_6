@@ -74,7 +74,7 @@
     var alt = $('.alts').data('alts')[0]
     //console.log($('.alts').data('alts')[0]);
     var mime_type = "image/jpeg"
-  fetch(alt.image.data_uri, {
+  fetch(alt, {
        method: 'GET',
         mode: 'no-cors'
   }).then(res => res.blob()) 
