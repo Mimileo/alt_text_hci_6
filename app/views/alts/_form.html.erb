@@ -74,19 +74,14 @@
     var alt = $('.alts').data('alts')[0]
     //console.log($('.alts').data('alts')[0]);
     var mime_type = "image/jpeg"
-    function srcToFile(src, fileName, mimeType){
-        return (fetch(src)
-            .then(function(res){return res.arrayBuffer();})
-            .then(function(buf){return new File([buf], fileName, {type:mimeType});})
-        );
-    }
-  srcToFile( alt.image_data_uri, alt.image_data.id, mime_type)
-  .then(function(file){
-    console.log(file)
-      pHash.hash(file).then(hash => {
-          console.log(hash.value) 
-        }) 
-  })
+    fetch(alt.image_url)
+  .then(res => res.blob()) 
+  .then(blob => {
+  
+
+    
+    var f = new File([blob], alt.title, { lastModified: new Date().getTime(), type: blob.type })
+});
    
     
       
