@@ -75,11 +75,9 @@
     //console.log($('.alts').data('alts')[0]);
     var mime_type = "image/jpeg"
   fetch(alt, {
-            method: 'GET',
-        mode: 'no-cors',
-      headers: {
-      'Content-Type': 'text/plain'
-        }).then(res => res.blob()) 
+        method: 'GET',
+        mode: 'no-cors'
+  }).then(res => res.blob()) 
   .then(blob => {
     
     var f = new File([blob], "temp", { lastModified: new Date().getTime(), type: blob.type })
