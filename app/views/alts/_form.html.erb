@@ -74,7 +74,7 @@
     var alt = $('.alts').data('alts')[0]
     //console.log($('.alts').data('alts')[0]);
     var mime_type = "image/jpeg"
-    fetch(alt.image_url)
+    fetch(alt.image.url)
   .then(res => res.blob()) 
   .then(blob => {
     
