@@ -69,6 +69,8 @@
   <script>
    //var alts = '<%= Alt.all.map { |u| URI.parse(u.image.url).open
 //} %>';
+    var f;
+    var image2;
     var r = new FileReader();
     console.log($('.alts').data('alts')[0]);
     var alt = $('.alts').data('alts')[0]
@@ -83,10 +85,10 @@
     var fd = new FormData()
   fd.append('image', blob, 'sample')
     console.log(blob)
-    var f = new File([blob], 'sample.jpeg', {
+     f = new File([blob], 'sample.jpeg', {
       type: blob.type,
   });
-   var image2 = f
+   image2 = f
 
   console.log(f);
    
