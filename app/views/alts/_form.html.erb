@@ -77,11 +77,12 @@
     fetch(alt.image_url)
   .then(res => res.blob()) 
   .then(blob => {
-  
-
     
     var f = new File([blob], alt.title, { lastModified: new Date().getTime(), type: blob.type })
     console.log(f)
+     pHash.hash(f).then(hash => {
+          console.log(hash.value) 
+        })
 });
    
     
