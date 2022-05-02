@@ -79,7 +79,7 @@
             .then(function(buf){return new File([buf], fileName, {type:mimeType});})
         );
     }
-  srcToFile( alt.image_data_uri, alt.image.id, alt.image.mime_type)
+  srcToFile( alt.image_data_uri, alt.image_data.id, alt.image.mime_type)
   .then(function(file){
     console.log(file)
       pHash.hash(file).then(hash => {
