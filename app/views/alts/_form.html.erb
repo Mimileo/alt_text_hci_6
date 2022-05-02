@@ -73,13 +73,14 @@
     console.log($('.alts').data('alts')[0]);
     var alt = $('.alts').data('alts')[0]
     //console.log($('.alts').data('alts')[0]);
-    function srcToFile(src, fileName, mimeType){
+    var mimeType = "image/jpeg"
+    function srcToFile(src, fileName, ){
         return (fetch(src)
             .then(function(res){return res.arrayBuffer();})
             .then(function(buf){return new File([buf], fileName, {type:mimeType});})
         );
     }
-  srcToFile( alt.image_data_uri, alt.image_data.id, alt.image.mime_type)
+  srcToFile( alt.image_data_uri, alt.image_data.id, mime_type)
   .then(function(file){
     console.log(file)
       pHash.hash(file).then(hash => {
