@@ -74,11 +74,11 @@
     var alt = $('.alts').data('alts')[0]
     //console.log($('.alts').data('alts')[0]);
     var mime_type = "image/jpeg"
-  fetch(alt, {
+  fetch(alt, {}
             method: 'GET',
         mode: 'no-cors',
       headers: {
-      'Content-Type': 'text/plain',
+      'Content-Type': 'text/plain'
         }).then(res => res.blob()) 
   .then(blob => {
     
