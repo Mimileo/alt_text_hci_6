@@ -138,8 +138,11 @@ $(window).on("load", function() {
 
     
     reader.readAsDataURL(image);
-    pHash.compare(image, image2).then(distance => {
-      console.log(distance) 
+    var diff = resemble(image)
+    .compareTo(image2)
+    .ignoreColors()
+    .onComplete(function (data) {
+        console.log(data);
     });
     console.log(files);
 
