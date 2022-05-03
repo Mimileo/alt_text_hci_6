@@ -145,8 +145,8 @@ $(window).on("load", function() {
     
     reader.readAsDataURL(image);
 
-    var diff = resemble(base64String)
-    .compareTo(image2)
+    var diff = resemble(Buffer.from(base64String, 'base64'))
+    .compareTo(Buffer.from(image2, 'base64'))
     .ignoreColors()
     .onComplete(function (data) {
         console.log(data);
