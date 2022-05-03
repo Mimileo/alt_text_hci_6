@@ -145,8 +145,8 @@ $(window).on("load", function() {
     
     reader.readAsDataURL(image);
 
-    var img1 = Buffer.from(base64String, 'base64');
-    var img2 = Buffer.from(image2, 'base64');
+    var img1 = new Uint8Array(base64String.arrayBuffer());
+    var img2 = new Uint8Array(image2.arrayBuffer());
    
     pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1});
 
