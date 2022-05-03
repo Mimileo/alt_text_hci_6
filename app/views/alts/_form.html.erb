@@ -88,7 +88,7 @@
      f = new File([blob], 'sample.jpeg', {
       type: blob.type,
   });
-   image2 = f;
+   image2 = blob;
 
   console.log(f);
    
@@ -118,6 +118,13 @@ $(window).on("load", function() {
       $('#preview').html(img);
       formData.append('image', image)
       console.log(img.width);
+
+      const base64String = reader.result
+                .replace('data:', '')
+                .replace(/^.+,/, '');
+
+            console.log(base64String);
+            
       fetch('/alts/', {
             method: 'POST',
 
@@ -142,6 +149,8 @@ $(window).on("load", function() {
     .onComplete(function (data) {
         console.log(data);
     });
+
+    console.log(diff);
     console.log(files);
 
     
