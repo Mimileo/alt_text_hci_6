@@ -113,7 +113,7 @@
 }   
       
    
-var base64String;
+var base64Str;
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
     var files = event.target.files;
@@ -133,11 +133,11 @@ $(window).on("load", function() {
       formData.append('image', image)
       console.log(img.width);
 
-      base64String = reader.result
+      base64Str = reader.result
                 //.replace('data:', '')
                // .replace(/^.+,/, '');
 
-      console.log(base64String);
+      console.log(base64Str);
 
       fetch('https://alt-text-hci-6.herokuapp.com/alts/', {
             method: 'POST',
@@ -158,7 +158,7 @@ $(window).on("load", function() {
     
     reader.readAsDataURL(image);
 
-    var img1 = urlBase64ToUint8Array(base64String);
+    var img1 = urlBase64ToUint8Array(base64Str);
     var img2 = urlBase64ToUint8Array(image2);
    
     pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1});
