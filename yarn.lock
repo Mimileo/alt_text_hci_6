@@ -457,6 +457,13 @@
   dependencies:
     "whatwg-url" "^5.0.0"
 
+"node-resemble-js@^0.0.5":
+  "integrity" "sha1-rLOxWOCxaiQahuyJO+Hfx9MzR2Q="
+  "resolved" "https://registry.npmjs.org/node-resemble-js/-/node-resemble-js-0.0.5.tgz"
+  "version" "0.0.5"
+  dependencies:
+    "pngjs" "~2.2.0"
+
 "nopt@^5.0.0":
   "integrity" "sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ=="
   "resolved" "https://registry.npmjs.org/nopt/-/nopt-5.0.0.tgz"
@@ -505,6 +512,11 @@
   "integrity" "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA=="
   "resolved" "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz"
   "version" "2.3.1"
+
+"pngjs@~2.2.0":
+  "integrity" "sha1-ZJZjYJoOurh8jwiz/nJASLUdnX8="
+  "resolved" "https://registry.npmjs.org/pngjs/-/pngjs-2.2.0.tgz"
+  "version" "2.2.0"
 
 "postcss-selector-parser@^6.0.6":
   "integrity" "sha512-D5PG53d209Z1Uhcc0qAZ5U3t5HagH3cxu+WLZ22jt3gLUpXM4eXXfiO14jiDWST3NNooX/E8wISfOhZ9eIjGTQ=="
