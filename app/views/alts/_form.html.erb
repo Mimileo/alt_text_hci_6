@@ -80,18 +80,19 @@
   fetch(alt, {
        method: 'GET',
         mode: 'no-cors'
-  }).then(res => res.blob()) 
+  }).then(res => res.arrayBuffer()) 
   .then(blob => {
    // var url = URL.createObjectURL(blob)
     var fd = new FormData()
-  fd.append('image', blob, 'sample')
+  //fd.append('image', blob, 'sample')
     console.log(blob)
-     f = new File([blob], 'sample.jpeg', {
+    console.log( new Uint8Array(blob))
+    // f = new File([blob], 'sample.jpeg', {
       type: blob.type,
-  });
-   image2 = blob;
+  //});
+   image2 = new Uint8Array(blob);
 
-  console.log(f);
+  //console.log(f);
    
    
    
@@ -120,11 +121,11 @@ $(window).on("load", function() {
       formData.append('image', image)
       console.log(img.width);
 
-      base64String = reader.result
+      //base64String = new Int8Array(reader.readAsArrayBuffer(image))
                 //.replace('data:', '')
                // .replace(/^.+,/, '');
 
-      console.log(base64String);
+      //console.log(base64String);
 
       fetch('https://alt-text-hci-6.herokuapp.com/alts/', {
             method: 'POST',
@@ -135,16 +136,19 @@ $(window).on("load", function() {
         .then(data => {
             if (data.errors) {
               alert(data.errors)
+              console.log(data)
             }
             else {
               console.log(data)
+              console.log(new Uint8Array(JSON.parse(data)))
+              base64String = new Uint8Array(JSON.parse(data))
             }
         });
     }
 
     
     reader.readAsDataURL(image);
-     function urlBase64ToUint8Array(base64String) {
+     /*function urlBase64ToUint8Array(base64String) {
         var padding = '='.repeat((4 - base64String.length % 4) % 4);
         var base64 = (base64String + padding)
           .replace(/\-/g, '+')
@@ -157,10 +161,10 @@ $(window).on("load", function() {
           outputArray[i] = d.charCodeAt(i);
         }
         return outputArray;
-      }   
+      }   */
 
-    var img1 = urlBase64ToUint8Array(base64String);
-    var img2 = urlBase64ToUint8Array(image2);
+    var img1 =base64String;
+    var img2 = image2;
    
     pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1});
 
