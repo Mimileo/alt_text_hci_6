@@ -4,7 +4,7 @@ import "./controllers"
 import * as bootstrap from "bootstrap"  
 import "trix"
 import "@rails/actiontext"
-import pixelmatch from "pixelmatch"
+import "pixelmatch"
 
 
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))  

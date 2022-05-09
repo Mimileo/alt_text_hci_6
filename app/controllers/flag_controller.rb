@@ -1,0 +1,2 @@
+class FlagController < ApplicationController
+end

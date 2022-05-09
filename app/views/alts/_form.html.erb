@@ -1,5 +1,4 @@
 
-
 <%= form_with(model: alt) do |form| %>
   <% if alt.errors.any? %>
     <div style="color: red">
@@ -59,7 +58,7 @@
   </div>
   <div>
   <!-- Todo: add Spinner -->
-   <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
+   <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block", id: "submit-btn" %>
    <%= content_tag :div, class: 'alts', data: {alts: Alt.all.map { |u| u.image.data_uri
 }} do %>
    <%end%>
@@ -71,36 +70,64 @@
 
 
     var f;
-    var image2;
+    var image2 = [];
     var r = new FileReader();
-    console.log($('.alts').data('alts')[0]);
-    var alt = $('.alts').data('alts')[0]
+   
+    var alts = $('.alts').data('alts')
     //console.log($('.alts').data('alts')[0]);
     var mime_type = "image/jpeg"
-  fetch(alt, {
-       method: 'GET',
-        mode: 'no-cors'
-  }).then(res => res.arrayBuffer()) 
-  .then(blob => {
-   // var url = URL.createObjectURL(blob)
-    var fd = new FormData()
-  //fd.append('image', blob, 'sample')
-    console.log(blob)
-    console.log( new Uint8Array(blob))
-    // f = new File([blob], 'sample.jpeg', {
-      type: blob.type,
-  //});
-   image2 = new Uint8Array(blob);
+ 
+   
+var r2;
 
-  //console.log(f);
-   
-   
-   
-});
-   
+for (let alt of alts) {
+  console.log(alt);
+}
+  /*let curr = new Promise(resolve => {
+    let r2 = new FileReader();
+    r2.readAsDataURL(alt);
+    r2.onload = () => (r2.result);
+  });
+  image2.push(curr)*/
+//}
 
+/*Promise.all(image2).then(imgContents) => {
+  console.log(imgContents)
+
+});*/
+   
+/*Promise.all(alts.map(alt =>
+
+   fetch(alt,{
+     method: 'GET', 
+     mode: 'no-cors'
+     }).then(res => res.blob())
+)).then(blob => {
+  
+  var temp=""
+  var r2;
+  for (let i = 0; i < blob.length; i++) {
+    r2 = new FileReader()
+    reader.readAsDataURL(blob[i]);
+   // console.log(blob[i])
+    r2.onload = () => {
+      temp = r2.result
+      console.log(temp)
       
+      //console.log("base64 size: ", image2.length)
+      
+    }
+    
+  }
+ 
    
+   
+  
+   
+   
+})*/
+ //$(".alert").alert('close')     
+var img1 = "";
 var base64String = "";
 $(window).on("load", function() {
   $('#formFile').on('change', function(event) {
@@ -121,7 +148,28 @@ $(window).on("load", function() {
       formData.append('image', image)
       console.log(img.width);
 
-      //base64String = new Int8Array(reader.readAsArrayBuffer(image))
+      base64String = reader.result
+      console.log("Result: ")
+      console.log(base64String)
+      img1 =base64String;
+    
+    for (const i of alts) {
+       if (img1.trim() === i.trim()) {
+        
+        alert("This image has already exists! Please select another image.")
+        $('#formFile').val("");
+        $('#submit-btn').prop('disabled', true);
+        break;
+        
+      } else{
+         console.log("Not a duplicate")
+          $('#submit-btn').prop('disabled', false);
+      }
+
+
+    }
+   
+      //new Int8Array(reader.readAsArrayBuffer(image))
                 //.replace('data:', '')
                // .replace(/^.+,/, '');
 
@@ -132,7 +180,7 @@ $(window).on("load", function() {
 
             body: formData
         })
-        .then(resp => resp.json())
+        .then(resp => resp.arrayBuffer())
         .then(data => {
             if (data.errors) {
               alert(data.errors)
@@ -140,36 +188,22 @@ $(window).on("load", function() {
             }
             else {
               console.log(data)
-              console.log(new Uint8Array(JSON.parse(data)))
-              base64String = new Uint8Array(JSON.parse(data))
+              //console.log(new Uint8Array(JSON.parse(data)))
+              //ase64String = new Uint8Array(JSON.parse(data))
             }
         });
     }
 
     
     reader.readAsDataURL(image);
-     /*function urlBase64ToUint8Array(base64String) {
-        var padding = '='.repeat((4 - base64String.length % 4) % 4);
-        var base64 = (base64String + padding)
-          .replace(/\-/g, '+')
-          .replace(/_/g, '/');
+    
 
-        var d = window.atob(base64);
-        var outputArray = new Uint8Array(d.length);
-
-        for (var i = 0; i < d.length; ++i) {
-          outputArray[i] = d.charCodeAt(i);
-        }
-        return outputArray;
-      }   */
-
-    var img1 =base64String;
-    var img2 = image2;
+    
    
-    pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1});
+    //pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1});
 
 
-    console.log( pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1}));
+    //console.log( pixelmatch(img1.data, img2.data, diff.data, width, height, {threshold: 0.1}));
     console.log(files);
 
     
