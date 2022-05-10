@@ -15,6 +15,27 @@ a:hover {
   }
 }
 
+a:active {
+  background-color: darken($purple, 10%) !important;
+  color: #ffffff !important;
+
+  .btn-primary {
+    color: #ffffff !important;
+  }
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .nav-link.active:hover,
+.nav-pills .nav-link.active:focus {
+  background-color: darken($purple, 10%) !important;
+  color: #ffffff !important;
+  
+  .btn-primary {
+    color: #ffffff !important;
+  }
+
+}
+
 .btn-primary {
   @include button-variant(
     $purple,
@@ -42,6 +63,13 @@ a:hover {
     lighten($purple, 5%),
     $purple
   );
+}
+
+.nav-link {
+  color: $purple;
+}
+.nav-link:hover {
+  color: darken($purple, 10%) !important;
 }
 
 .sr-only {
