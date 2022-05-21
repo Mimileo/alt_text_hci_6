@@ -1,6 +1,7 @@
 
 require "shrine/storage/file_system"
 
+Shrine.plugin :validation_helpers
 Shrine.plugin :derivatives
 Shrine.plugin :activerecord
 Shrine.plugin :data_uri

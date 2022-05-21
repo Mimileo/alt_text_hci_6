@@ -5,6 +5,8 @@ class ImageUploader < Shrine
 	plugin :add_metadata
 
   Attacher.derivatives do |original|
+    validate_mime_type %w[image/jpeg image/png image/webp image/tiff]
+    validate_extension %w[jpg jpeg png gif webp]
     magick = ImageProcessing::MiniMagick.source(original)
  
     { 

@@ -155,10 +155,10 @@ class AltsController < ApplicationController
  
   # adds metadata 
   def image_modification_alt
-    if is_duplicate == true
-      @alt.destroy
-      return false
-    end
+    #if is_duplicate == true
+    #  @alt.destroy
+    #  return false
+   # end
     #img2 = Alt.find_by(id: 10)
     #i2 = Phashion::Image.new(img2.image.url)
     

@@ -1,0 +1,11 @@
+<main class="container">
+  <p style="color: green"><%= notice %></p>
+
+  <%= render @alt_text %>
+
+  <div>
+    <%= link_to "Edit this alt text", edit_alt_text_path(@alt_text) %> |
+
+    <%= button_to "Destroy this alt text", @alt_text, method: :delete %>
+  </div>
+</main>

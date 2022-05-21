@@ -59,7 +59,7 @@
   <div>
   <!-- Todo: add Spinner -->
    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block", id: "submit-btn" %>
-   <%= content_tag :div, class: 'alts', data: {alts: Alt.all.map { |u| u.image.data_uri
+   <%= content_tag :div, class: 'alts', data: {alts: Alt.all.map { |u| u.image.data_uri 
 }} do %>
    <%end%>
 
