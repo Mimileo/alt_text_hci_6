@@ -5,6 +5,7 @@
 
   <div>
     <%= link_to "Edit this alt text", edit_alt_text_path(@alt_text) %> |
+    <%= link_to "Back to alt text", alt_alt_texts_path(@alt_text.alt_id) %> |
 
     <%= button_to "Destroy this alt text", @alt_text, method: :delete %>
   </div>

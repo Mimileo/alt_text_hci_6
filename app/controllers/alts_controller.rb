@@ -71,19 +71,19 @@ class AltsController < ApplicationController
         @alt.image_attacher.add_metadata(caption: @alt.title, alt: @alt.body)
         @alt.save
        
-        if image_modification_alt == false
-           format.js
-           format.html { render :new, status: :unprocessable_entity }
-           flash[:alert] = "The image was a duplicate. Please upload another image" 
-        else
-          @alt.verified = false
+        #if image_modification_alt == false
+        #   format.js
+        #  format.html { render :new, status: :unprocessable_entity }
+        #   flash[:alert] = "The image was a duplicate. Please upload another image" 
+        #else
+          @alt.verified = @alt.verified
           @alt.save
           build_alt_text_versions
          
           format.js
           format.html { redirect_to alt_url(@alt), notice: "Alt was successfully created." }
           format.json { render :show, status: :created, location: @alt }
-         end
+         #end
       else
         format.js
         format.html { render :new, status: :unprocessable_entity }
