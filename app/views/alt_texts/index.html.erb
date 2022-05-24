@@ -51,7 +51,16 @@
     </div>
   </div>
    <% elsif !@alt_texts.nil? %> 
+    <div id="alt_info" class="row col-lg-12 p-5">
+            <div class="col-md-4">
+                <%= render @alt_texts[0].alt %>
+            </div>
+             <div class="col-md-8">
+                  <%= render "alts/mod_form", alt: @alt_texts[0].alt %>
+              </div>
+              </div>
           <div id="alt_texts" class="col-lg-3">
+                
                 <% @alt_texts.each do |alt_text| %>
                   <%= render alt_text %>
                   <p>
