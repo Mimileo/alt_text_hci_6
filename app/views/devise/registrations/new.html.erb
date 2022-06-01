@@ -7,6 +7,12 @@
           <div class="card p-5 col-xl-6 offset-xl-3 col-12">
             <h2 class="mb-3">Sign up</h2>
             <%= render "devise/shared/error_messages", resource: resource %>
+
+            <div class="form-floating mt-1">
+              <%= f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control", id: "username" %>
+              <label for="username" class="text-secondary">Username<span class="">*</span></label>
+            </div>
+
             <div class="form-floating mt-1">
               <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", id: "email" %>
               <label for="email" class="text-secondary">Email<span class="">*</span></label>

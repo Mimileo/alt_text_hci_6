@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable, :trackable
 
   has_many :alts, dependent: :destroy
-  has_many :verifcations, dependent: :destroy
+  #has_many :verifcations, dependent: :destroy
   has_one  :moderator, dependent: :destroy
 
 

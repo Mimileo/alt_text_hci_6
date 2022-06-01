@@ -13,7 +13,7 @@ class AltsController < ApplicationController
       if params[:tag].nil? == false 
          @alts = Alt.search(params[:tag], fields:[:tags], operator: "or")
       else
-        @alts = Alt.where(verified: true).shuffle.first(3) 
+        @alts = Alt.where(verified: true, flag: false).shuffle.first(3) 
       end
 
     else
@@ -41,7 +41,7 @@ class AltsController < ApplicationController
   def verify
     search = params[:query].present? ? params[:query] : nil
     if search.nil?
-       @alts = Alt.where(verified: false).shuffle.first(1)
+       @alts = Alt.where(verified: false, flag: false).shuffle.first(1)
        @alt = Alt.new
     else
       @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
@@ -287,10 +287,10 @@ class AltsController < ApplicationController
     # Only allow a list of trusted parameters through.
 
     def update_alt_params
-      params.require(:alt).permit(:body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list)
+      params.require(:alt).permit(:body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :flag_reason)
     end
 
     def alt_params
-      params.require(:alt).permit(:body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :user_id)
+      params.require(:alt).permit(:body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :user_id, :flag_reason)
     end
 end

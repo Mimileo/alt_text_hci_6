@@ -20,9 +20,10 @@
     <div class="row g-4">
       <div class="col-md-10">
         <div id="altverify_me" class="row">
-          <% @alts.each do |altverify_me| %>
-            <% if altverify_me.verified == false %>
+          <% @alts.each do |altverify_me | %>
+           
               <h1><%= altverify_me.title if altverify_me.title %></h1>
+             
               <div class="row bg-light p-3 border rounded">
                 <div class="col-6 mx-auto d-md-none d-sm-block">
                   <%= image_tag altverify_me.image_url(:small), caption: altverify_me.title, alt: altverify_me.alt_texts.pluck(:body).last, height: altverify_me.image(:small).height , width: altverify_me.image(:small).width, class: "border rounded image img-fluid w-100" %>
@@ -40,7 +41,7 @@
                     </turbo-frame>
                 </div>
               </div>
-            <% end %>
+           
           <% end %>
         </div>
       </div>
