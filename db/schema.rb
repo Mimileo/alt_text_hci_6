@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_01_033743) do
+ActiveRecord::Schema.define(version: 2022_05_31_221241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,13 +68,13 @@ ActiveRecord::Schema.define(version: 2022_06_01_033743) do
     t.string "title"
     t.string "original_url"
     t.string "original_source"
-    t.boolean "verified"
+    t.boolean "verified", default: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "body"
-    t.boolean "flag"
     t.integer "total_verifications", default: 0
+    t.boolean "flag"
     t.string "flag_reason"
     t.index ["user_id"], name: "index_alts_on_user_id"
   end
@@ -176,13 +176,6 @@ ActiveRecord::Schema.define(version: 2022_06_01_033743) do
     t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "verifications", force: :cascade do |t|
-    t.integer "alt_id"
-    t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
