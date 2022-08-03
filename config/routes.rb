@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :alt_favorites
+  get 'favorites/create'
+  get 'favorites/destroy'
+  resources :documentations, path: "/documentation"
+  resources :abouts, path: "/about"
   resources :moderators
   resources :alt_texts
   resources :alts, shallow: true do

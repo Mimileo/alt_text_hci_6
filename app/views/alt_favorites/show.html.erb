@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @alt_favorite %>
+
+<div>
+  <%= link_to "Edit this alt favorite", edit_alt_favorite_path(@alt_favorite) %> |
+  <%= link_to "Back to alt favorites", alt_favorites_path %>
+
+  <%= button_to "Destroy this alt favorite", @alt_favorite, method: :delete %>
+</div>

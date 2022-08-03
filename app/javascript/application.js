@@ -4,13 +4,29 @@ import "./controllers"
 import * as bootstrap from "bootstrap"  
 import "trix"
 import "@rails/actiontext"
-import "pixelmatch"
+
+
 
 
 let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))  
 let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {  
   return new bootstrap.Popover(popoverTriggerEl)  
 })  
+/*
+var grid = document.querySelector('#alts');
+
+
+var tabEl = document.querySelector('button[data-bs-toggle="tab"]')
+tabEl.addEventListener('show.bs.tab', function (event) {
+  event.target // newly activated tab
+  //event.relatedTarget // previous active tab
+  new Masonry(grid,{
+    itemSelector: '#alt',
+    columnWidth: '#alt',
+    percentPosition: true
+  });
+  
+})*/
 
 document.addEventListener("turbo:submit-start", (event) => {
   confirmSubmission(event).then(() => {
@@ -18,6 +34,7 @@ document.addEventListener("turbo:submit-start", (event) => {
     // this block is optional.
   })
 })
+
 
 function confirmSubmission(event) {
   const button = event.target.querySelector("[data-confirm]")

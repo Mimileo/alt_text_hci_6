@@ -1,0 +1,91 @@
+
+<%= form_with(model: alt, id: "img_form") do |form| %>
+  <% if alt.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(alt.errors.count, "error") %> prohibited this alt from being saved:</h2>
+
+      <ul>
+        <% alt.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <div class="mb-1">
+    <!-- Hid the "#preview" until image is loaded so the gap is removed and doesn't confuse user -->
+    <!-- <div id="preview" class="container-fluid" style="width:100px;height:100px;">
+       <span id="prev"></span>
+    </div> -->
+    <div class="load-div">
+      <div class="load">
+        <div class="check">
+          <span class="check-one"></span>
+          <span class="check-two"></span>
+        </div>
+      </div>
+    </div>
+    </div>
+    <%= form.hidden_field :image, value: form.object.cached_image_data %>
+    <label for="formFile" class="form-label">Select an image</label>
+    <%= form.file_field :image, class: "form-control form-control-lg", id: "formFileLg", type: "file", id: "formFile" %>
+
+  <div class="my-5">
+   <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block w-100", id: "submit-btn"  %>
+  </div>
+  <% if user_signed_in? %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  <% end %>
+<% end %>
+    </div>
+  
+
+
+<script>
+  $( document ).ready(function() {
+    var btn = document.querySelector('#submit-btn');
+    var loader = document.querySelector('.load');
+    var check = document.querySelector('.check');
+    var prev = document.getElementById('prev');
+    
+    btn.addEventListener('click', function () {
+      loader.classList.add('active');    
+       prev.textContent =' Checking...';
+    });
+   
+    loader.addEventListener('click', function() {
+      check.classList.add('active'); 
+     
+    });
+  });
+
+
+  // Todo: add image preview 
+  /*
+   window.onload("turbolinks:load", (event) => {
+
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      
+      reader.onload = function(e) {
+        var img = new Image();
+        console.log(e);
+        img.src = e.target.result;
+        $('#preview').html(img);
+       
+      }
+      
+      reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+  }
+
+  $("#formFile").change(function() {
+    readURL(this);
+  })
+    });
+
+  */
+
+ 
+</script>

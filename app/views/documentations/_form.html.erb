@@ -1,0 +1,36 @@
+<%= form_with(model: documentation) do |form| %>
+  <% if documentation.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(documentation.errors.count, "error") %> prohibited this documentation from being saved:</h2>
+
+      <ul>
+        <% documentation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-floating mb-3">
+    <%= form.text_field :title, id: "title", class: "form-control", placeholder: "Title", required: true %>
+     <label for="title">Title<span style="color:red"> *</span></label>
+  </div>
+  <div class="my-5">
+    <%= form.label :seo, style: "display: block" %>
+    <%= form.rich_text_area :seo %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :description, style: "display: block" %>
+    <%= form.rich_text_area :description %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :body, style: "display: block" %>
+    <%= form.rich_text_area :body %>
+  </div>
+
+  <div class="my-5">
+    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block", id: "submit-btn" %>
+  </div>
+<% end %>

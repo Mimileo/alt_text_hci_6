@@ -1,9 +1,13 @@
+require 'action_text'
+
 class ApplicationController < ActionController::Base
+
 	before_action :configure_permitted_parameters, if: :devise_controller?
 	include Pundit
   helper_method :super_admin
   helper_method :referee
   helper_method :contributor
+
 
   protected
 
@@ -12,12 +16,12 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :username])
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name])
   end
 
   def super_admin
-    if user_signed_in? && current_user.super_user == true && (current_user.email == "kate@seven.army" || current_user.email == "mleon11@ucsc.edu")
+    if user_signed_in? && current_user.super_user == true && (current_user.email == "kate@seven.army" || current_user.email == "mleon11@ucsc.edu" || current_user.email == "justin@accr.biz")
       current_user
     else
       nil

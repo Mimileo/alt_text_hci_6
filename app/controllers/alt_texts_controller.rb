@@ -17,11 +17,13 @@ class AltTextsController < ApplicationController
     end
     #@alt = Alt.new
    # @alt_texts = policy_scope(AltText.select('DISTINCT alt_id'))
+    authorize @alt
     authorize @alt_texts
   end
 
   # GET /alt_texts/1 or /alt_texts/1.json
   def show
+    authorize @alt_text
   end
 
 

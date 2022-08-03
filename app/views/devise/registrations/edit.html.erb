@@ -8,6 +8,10 @@
       <div class="mb-5" id="general">
         <h3 class="mb-3 pb-3">General</h3>
         <div class="form-floating mb-3">
+          <%= f.text_field :username, autofocus: true, autocomplete: "username", placeholder: "Username", id: "Username", class: "form-control" %>
+          <%= f.label :username, for: "Username", class: "text-secondary" %>
+        </div>
+        <div class="form-floating mb-3">
           <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", id: "Email", class: "form-control" %>
           <%= f.label :email, for: "Email", class: "text-secondary" %>
         </div>
@@ -51,6 +55,18 @@
     <h3>Cancel my account</h3>
 
     <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), class: "btn btn-danger btn-sm", data: { confirm: "Are you sure you want to leave Seven Army?" }, method: :delete %></p>
+
+    <div class="row col-lg-12 p-5 flags" data-bs-masonry='{"percentPosition": true }'>
+      <% current_user.alts.each do |alt| %>
+        <div class="col-md-4">
+          <%= link_to alt, "aria-label": "link to #{alt.title}" do %>
+            <%= image_tag alt.image_url, caption: alt.title, alt: alt.alt_texts.pluck(:body).last, height: "100%", width: "100%", class: "border rounded image img-fluid w-100" %>
+             <turbo-frame id="<%= dom_id(alt) %>" loading="lazy" src="<%= alts_path %>">
+                <%= render('common/spinner') %>
+            </turbo-frame>
+          <% end %>
+        </div>
+      <% end %>
 
     <%= link_to "Back", :back %>
   </div>

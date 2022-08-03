@@ -7,7 +7,6 @@
 <% end %>
 
 <section id="<%= dom_id alt %>" class="mt-5">
-  <h1 class="display-5"><%= alt.title %></h1>
   <nav class="nav nav-pills nav-fill mt-5">
 
     <a aria-labeledby="Share on Twitter" class="social-share" href="https://twitter.com/intent/tweet?url=<%= alt_url(@alt) %>" target="_blank">
@@ -27,36 +26,45 @@
       <i class="fa fa-solid fa-envelope  fa-2x px-2 md-5"></i>
     </a>
 
-     <a href="https://plus.google.com/share?url=<%= alt_url(@alt) %>" target="_blank" style="color : #555">
-      <i id="googleplus" class="fa fa-google-plus-square fa-2x px-2 md-5"></i>
-    </a>
     <% if user_signed_in? && alt.verified? && current_user.flag != true %>
       <%= link_to "Download", alt.image.url(response_content_disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
     <% end %>
   </nav>
   <div class="row mt-4">
     <div class="col-md-6 bg-light p-5 border rounded">
-      <h2><u>Info.</u></h2>
       <%= verification(alt) %>
       <% if user_signed_in? && (current_user == @alt_show.user) || super_admin || referee %>
-        <span class="d-block mb-1">created by <%= @alt_show.user["email"] %></span>
+        <span class="d-block mb-1">Uploaded by <%= @alt_show.user["username"] %></span>
       <% end %>
-      <span class="d-block mb-1">Created: <%= alt.created_at.strftime("%B #{alt.created_at.day.ordinalize}, %Y") %></span>
-      <span class="d-block mb-1">Tags: <%= linked_tag_list alt %></span>
-      <span class="d-block mb-1">URL: <%= alt.original_url %></span>
-      <span class="d-block mb-1">Source: <%= alt.original_source %></span>
-      <!-- <span class="d-block mb-1"><%= alt.image.metadata %></span> -->
-      <span class="d-block mb-1">Mime type: <%= alt.image.mime_type %></span>
-      <span class="d-block mb-1">Width: <%= alt.image(:small).width %> px </span>
-      <span class="d-block mb-1">Height: <%= alt.image(:small).height %> px </span>
-      <span class="d-block mb-1">User: <%= first_last_name(alt) %></span>
-      <span class="d-block mb-1">Latest alt text: <%= alt.alt_texts.pluck(:body).last %></span>
-      <span class="d-block mb-1">Original alt text: <%= alt.alt_texts.pluck(:body).first %></span>
+      <span class="d-block mb-1"><%= linked_tag_list alt %></span>
+      <span class="d-block mb-1"><%= alt.alt_texts.pluck(:body).last %></span>
+
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+              <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+            </svg>
+               More Info. 
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse overflow-auto" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <span class="d-block mb-1">URL: <%= alt.original_url %></span>
+              <span class="d-block mb-1">Created: <%= alt.created_at.strftime("%B #{alt.created_at.day.ordinalize}, %Y") %></span>
+              <span class="d-block mb-1">Source: <%= alt.original_source %></span>
+              <!-- <span class="d-block mb-1"><%= alt.image.metadata %></span> -->
+              <span class="d-block mb-1">Mime type: <%= alt.image.mime_type %></span>
+              <span class="d-block mb-1">Width: <%= alt.image(:small).width %> px </span>
+              <span class="d-block mb-1">Height: <%= alt.image(:small).height %> px </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-md-6">
-      <%= link_to alt.image_url(:small) do %>
-        <%= image_tag alt.image_url(:small), class: "image", caption: alt.title, alt: alt.alt_texts.pluck(:body).last, class: "img-fluid", height: alt.image(:small).height, width: alt.image(:small).width %>
-      <% end %>
+      <%= image_tag alt.image_url(:small), class: "image", caption: alt.title, alt: alt.alt_texts.pluck(:body).last, class: "img-fluid", height: alt.image(:small).height, width: alt.image(:small).width %>
     </div>
   </div>
 </section>

@@ -1,0 +1,16 @@
+<% @title = "About Seven Army" %>
+<% if !about.nil? %>
+<% @seo_description = "#{about.description}" %>
+<section class="my-5" id="<%= dom_id about %>">
+  <header class="row">
+    <h1 class="display-1 fw-bold text-secondary">About Seven Army</h1>
+  </header>
+  <% if user_signed_in? && super_admin %>
+    <%= render "form", about: @about %>
+  <% else %>
+    <p><%= about.description %></p>
+    <hr>
+    <p><%= about.body %><p>
+  <% end %>
+</section>
+<%end%>

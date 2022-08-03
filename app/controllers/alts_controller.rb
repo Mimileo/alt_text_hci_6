@@ -3,17 +3,31 @@ class AltsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_alt, only: %i[ edit update destroy ]
   protect_from_forgery prepend: true
-  helper_method :scrape
+  # helper_method :scrape
 
   
   # GET /alts or /alts.json
   def index
+    @fav = AltFavorite.new
+    @clicked = false
+    puts @clicked
     search = params[:query].present? ? params[:query] : nil
-    if search.nil?
+
+    if params[:search_home].nil? && search.nil?
+      @alts = Alt.where(verified: true, flag: false).shuffle.first(3)
+    elsif params[:search_home] == "Search" && search.nil? && @clicked == false
+      @alts = Alt.where(verified: true, flag: false).shuffle
+      @clicked = true
+      puts @clicked
+    elsif params[:search_home] != ""
+       @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
+    elsif search.nil?
       if params[:tag].nil? == false 
          @alts = Alt.search(params[:tag], fields:[:tags], operator: "or")
-      else
-        @alts = Alt.where(verified: true, flag: false).shuffle.first(3) 
+      #elsif params[:tag].nil? == true
+       # @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
+      elsif params[:search_home] == "Search" && @clicked == true
+        @alts = Alt.where(verified: true, flag: false).shuffle
       end
 
     else
@@ -33,15 +47,21 @@ class AltsController < ApplicationController
 
   # GET /alts/1 or /alts/1.json
   def show
-    @alt_show = Alt.find(params[:id])
+    @fav = AltFavorite.new
     @alt = Alt.find(params[:id])
-    authorize @alt
+    if @alt.banned_image == true || @alt.flag == true
+      redirect_to alts_path
+    else
+      @alt_show = Alt.find(params[:id])
+      @alt = Alt.find(params[:id])
+      authorize @alt
+    end
   end
 
   def verify
     search = params[:query].present? ? params[:query] : nil
     if search.nil?
-       @alts = Alt.where(verified: false, flag: false).shuffle.first(1)
+       @alts = Alt.where(verified: false, flag: false, banned_image: false).shuffle.first(1)
        @alt = Alt.new
     else
       @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
@@ -70,20 +90,21 @@ class AltsController < ApplicationController
         @alt.image_derivatives!
         @alt.image_attacher.add_metadata(caption: @alt.title, alt: @alt.body)
         @alt.save
-       
-        #if image_modification_alt == false
-        #   format.js
-        #  format.html { render :new, status: :unprocessable_entity }
-        #   flash[:alert] = "The image was a duplicate. Please upload another image" 
-        #else
+        ImageDupCheckJob.perform_now(@alt)
+        if @alt.duplicate_check == true
+           @alt.destroy
+           format.js
+           format.html { render :new, status: :unprocessable_entity }
+           flash[:error] = "The image was a duplicate. Please upload another image" 
+        elsif @alt.duplicate_check == false
           @alt.verified = @alt.verified
           @alt.save
           build_alt_text_versions
          
           format.js
-          format.html { redirect_to alt_url(@alt), notice: "Alt was successfully created." }
+          format.html { redirect_to edit_alt_path(@alt), notice: "Alt was successfully created." }
           format.json { render :show, status: :created, location: @alt }
-         #end
+         end
       else
         format.js
         format.html { render :new, status: :unprocessable_entity }
@@ -127,32 +148,6 @@ class AltsController < ApplicationController
   end
 
  
-
-
-  def is_duplicate
-    a = Alt.find_by(id: @alt.id)
-    file1 = URI.parse(a.image_url).open
-    puts file1.class
-   
-    img_mod = Phashion::Image.new(file1.path)
-    count = 0
-    Alt.all.map { |u| 
-
-       puts u.title
-      
-       file2 = URI.parse(u.image.url).open
-      
-      
-       if img_mod.duplicate?(Phashion::Image.new(file2.path)) == true
-          count = count + 1
-          if count == 2
-            return true 
-          end 
-       end 
-    }
-    return false
-  end
- 
   # adds metadata 
   def image_modification_alt
     #if is_duplicate == true
@@ -186,98 +181,99 @@ class AltsController < ApplicationController
     end
   end
 
+  private
 
-  def scrape
-    puts "scraping"
-    base_url = "https://www.instagram.com"
-    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36"
+  # Does Kate still Instagram scrape?
+
+  # def scrape
+  #   puts "scraping"
+  #   base_url = "https://www.instagram.com"
+  #   user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36"
 
   
-    url = "#{base_url}/agustd/"
-    data = URI.open(url, "User-Agent" => user_agent).read
-    if data.nil? || data == 0
-      return false
-    end
-    matches = data.match(/window._sharedData =(.*);<\/script>/)
-    shared_data = JSON.parse(matches[1])
-    #puts data
+  #   url = "#{base_url}/agustd/"
+  #   data = URI.open(url, "User-Agent" => user_agent).read
+  #   if data.nil? || data == 0
+  #     return false
+  #   end
+  #   matches = data.match(/window._sharedData =(.*);<\/script>/)
+  #   shared_data = JSON.parse(matches[1])
+  #   #puts data
    
-    if shared_data["entry_data"]["ProfilePage"].nil? || data == 0
-      puts "Timed out"
-      return false
-    end
-    sharedData = shared_data["entry_data"]["ProfilePage"][0]
+  #   if shared_data["entry_data"]["ProfilePage"].nil? || data == 0
+  #     puts "Timed out"
+  #     return false
+  #   end
+  #   sharedData = shared_data["entry_data"]["ProfilePage"][0]
     
     
     
-    contents = []
-    edges = sharedData["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"].map { |n| n["node"] }
-    edges.each do |x| 
-      post = {}
-      if x["__typename"] == "GraphImage"
-        #puts "Height: " + x["dimensions"]["height"].to_s
-        #puts "Width: " + x["dimensions"]["width"].to_s
-        #puts "Display Url: " + x["display_url"]
-        #puts "Alt Text: " + x["accessibility_caption"]
-        post[:body] = x["accessibility_caption"]
-        post[:image] = x["display_url"]
-        post[:title] = ""
-        post[:original_url] = x["display_url"]
-        post[:original_source] = x["display_url"]
+  #   contents = []
+  #   edges = sharedData["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"].map { |n| n["node"] }
+  #   edges.each do |x| 
+  #     post = {}
+  #     if x["__typename"] == "GraphImage"
+  #       #puts "Height: " + x["dimensions"]["height"].to_s
+  #       #puts "Width: " + x["dimensions"]["width"].to_s
+  #       #puts "Display Url: " + x["display_url"]
+  #       #puts "Alt Text: " + x["accessibility_caption"]
+  #       post[:body] = x["accessibility_caption"]
+  #       post[:image] = x["display_url"]
+  #       post[:title] = ""
+  #       post[:original_url] = x["display_url"]
+  #       post[:original_source] = x["display_url"]
        
-        puts "\n\n"
-        contents.push(post)
-      elsif x["__typename"] == "GraphSidecar"
-        side_car = x["edge_sidecar_to_children"]["edges"]
-        side_car.each do |i| 
-            n = i["node"]
-            #puts "Type: " + n["__typename"]
-            #puts "Height: " + n["dimensions"]["height"].to_s
-            #puts "Width: " + n["dimensions"]["width"].to_s
-            #puts "Display Url: " + n["display_url"]
-            #puts "Alt Text: " + n["accessibility_caption"]
-            #puts "\n\n"
-            post[:body] = n["accessibility_caption"]
-            post[:image] = ""
-            post[:title] = n["id"]
-            post[:original_url] = n["display_url"]
-            post[:original_source] = n["display_url"]
-            contents.push(post)
-        end
+  #       puts "\n\n"
+  #       contents.push(post)
+  #     elsif x["__typename"] == "GraphSidecar"
+  #       side_car = x["edge_sidecar_to_children"]["edges"]
+  #       side_car.each do |i| 
+  #           n = i["node"]
+  #           #puts "Type: " + n["__typename"]
+  #           #puts "Height: " + n["dimensions"]["height"].to_s
+  #           #puts "Width: " + n["dimensions"]["width"].to_s
+  #           #puts "Display Url: " + n["display_url"]
+  #           #puts "Alt Text: " + n["accessibility_caption"]
+  #           #puts "\n\n"
+  #           post[:body] = n["accessibility_caption"]
+  #           post[:image] = ""
+  #           post[:title] = n["id"]
+  #           post[:original_url] = n["display_url"]
+  #           post[:original_source] = n["display_url"]
+  #           contents.push(post)
+  #       end
         
-        puts "\n\n"
+  #       puts "\n\n"
         
-      end
-    end
-     #binding.pry
-    #puts contents
-    # store item content to Alt model and attach meta data for content image
-    i = 0
-    contents.each do |c|
-      file = URI.open(c[:original_url])
-      if i == 20
-       break
-      end
+  #     end
+  #   end
+  #    #binding.pry
+  #   #puts contents
+  #   # store item content to Alt model and attach meta data for content image
+  #   i = 0
+  #   contents.each do |c|
+  #     file = URI.open(c[:original_url])
+  #     if i == 20
+  #      break
+  #     end
      
-      #a = Alt.where(original_url: c[:original_url]).first_or_create
-      a = Alt.where(title: c[:title], user_id: 1, body: c[:body], original_url: c[:original_url], original_source: c[:original_source], verified: false).first_or_create
+  #     #a = Alt.where(original_url: c[:original_url]).first_or_create
+  #     a = Alt.where(title: c[:title], user_id: 1, body: c[:body], original_url: c[:original_url], original_source: c[:original_source], verified: false).first_or_create
 
-      #puts a.title
+  #     #puts a.title
       
-      a.image_attacher.assign(file)
+  #     a.image_attacher.assign(file)
      
-      a.image_derivatives!
-      a.image_attacher.add_metadata(caption: a.title, alt: a.body)
-      a.save
+  #     a.image_derivatives!
+  #     a.image_attacher.add_metadata(caption: a.title, alt: a.body)
+  #     a.save
 
       
-      i += 1
-    end
+  #     i += 1
+  #   end
 
-    return true 
-  end
-
-  private
+  #   return true 
+  # end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_alt
@@ -287,10 +283,10 @@ class AltsController < ApplicationController
     # Only allow a list of trusted parameters through.
 
     def update_alt_params
-      params.require(:alt).permit(:body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :flag_reason)
+      params.require(:alt).permit(:duplicate_check, :banned_image, :body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :flag_reason)
     end
 
     def alt_params
-      params.require(:alt).permit(:body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :user_id, :flag_reason)
+      params.require(:alt).permit(:duplicate_check, :banned_image, :body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :user_id, :flag_reason)
     end
 end

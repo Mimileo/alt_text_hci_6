@@ -1,0 +1,14 @@
+<% @title = "Documentation for Seven Army" %>
+<% @seo_description = "#{documentation.seo}" %>
+<section class="my-5" id="<%= dom_id documentation %>">
+  <header class="row">
+    <h1 class="display-1 fw-bold text-secondary"><%= documentation.title %></h1>
+  </header>
+  <% if user_signed_in? && super_admin %>
+    <%= render "form", documentation: @documentation %>
+  <% else %>
+    <p><%= documentation.description %></p>
+    <hr>
+    <p><%= documentation.body %><p>
+  <% end %>
+</section>

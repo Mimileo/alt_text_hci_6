@@ -2,7 +2,6 @@
   <% if alt.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(alt.errors.count, "error") %> prohibited this alt from being saved:</h2>
-
       <ul>
         <% alt.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -15,44 +14,32 @@
     <%= form.text_field :title, id: "title", class: "form-control", placeholder: "Title", required: true %>
     <label for="title">Title<span style="color:red"> *</span></label>
   </div>
- 
   <div class="mb-3 bg-light border rounded border-1 p-3">
     <% if super_admin || referee %>
       <div class="d-block">
-      
-       
-      
-         <%= form.label "Verify" , style: "display: block" %>
-      
+        <%= form.label "Verify" , style: "display: block" %>
         <%= form.check_box :verified %>
       </div>
     <% end %>
     <% if user_signed_in? %>
        <div class="d-block">
-      
-          <%= form.label "Flag" , style: "display: block" %>
-        
-           <%= form.check_box :flag %>
+        <%= form.label "Flag" , style: "display: block" %>
+        <%= form.check_box :flag %>
        </div>
        <div class="d-block">
-           <%if alt.flag == true %>
-           <p>Reason: <%= alt.flag_reason %></p> 
-           <%end%>
+         <% if alt.flag == true %>
+          <p>Reason: <%= alt.flag_reason %></p> 
+         <% end %>
       </div>
       <div class="d-block">
-        
-      
-       
-          <%=  form.label "Ban", style: "display: block" %>
-       
-          
+        <%=  form.label "Ban", style: "display: block" %>
+        <%= form.check_box :banned_image %>
       </div>
       <%= form.hidden_field :user_id, value: current_user.id %>
     <% end %>
   </div>
   <div>
-  <!-- Todo: add Spinner -->
-   <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
-   
+    <!-- Todo: add Spinner -->
+    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block" %>
   </div>
 <% end %>

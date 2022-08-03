@@ -8,10 +8,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>    
      <link href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-
-
-
+     <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="twitter:card" content="summary_large_image" />
@@ -79,16 +76,18 @@
               </li>
               <% end %>   
             </ul>
-            <div class="nav-item mb-3 mx-1 mb-lg-0"><%= link_to "Participate", verify_path, class: "me-3" %></div>
+            <div aria-label="About Seven Army" class="nav-item mb-3 mx-1 mb-lg-0"><%= link_to "About", abouts_path, class: "me-3" %></div>
+            <div aria-label="Documentation for Seven Army" class="nav-item mb-3 mx-1 mb-lg-0"><%= link_to "Docs", documentations_path, class: "me-3" %></div>
+            <div aria-label="Participate with Seven Army by adding and modifying an image's alternative text" class="nav-item mb-3 mx-1 mb-lg-0"><%= link_to "Participate", verify_path, class: "me-3" %></div>
             <% if user_signed_in? %>
               <div class="nav-item mb-3 mx-1 mb-lg-0">
                 <a href="<%= new_alt_path %>" class="me-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg> Create 
+                </svg> Upload New 
                 </a>
               </div>
-              <div class="d-inline-block  mb-3 mt-3"><%= link_to "Account", edit_user_registration_path, class: "text-white me-3 btn btn-primary btn-sm" %></div>
+              <div class="d-inline-block  mb-3 mt-3"><%= link_to "Hi, #{current_user.username}!", edit_user_registration_path, class: "text-white me-3 btn btn-primary btn-sm" %></div>
               <div class="d-inline-block  mb-3 mt-3"><%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "me-3 btn btn-outline-primary btn-sm" %></div>
             <% else %>
               <%= link_to "Sign up", new_user_registration_path, class: "text-white ms-1 btn btn-primary btn-small"  %>

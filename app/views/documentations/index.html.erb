@@ -1,0 +1,22 @@
+<% @title = "Documentation" %>
+<% if !@documentation_about.nil? %>
+<% @seo_description = "#{@documentation_about.seo}" %>
+<main class="my-5 container">
+  <p style="color: green"><%= notice %></p>
+
+  <h1 class="fw-bold text-secondary display-1">Documentation<% if user_signed_in? && super_admin %>
+    <%= link_to "New documentation", new_documentation_path, class: "btn btn-primary text-white" %>
+  <% end %></h1>
+  
+  <section class="row">
+    <div class="col-lg-3" id="documentations">
+      <% @documentations.each do |documentation| %>
+        <%= link_to documentation.title, documentation %>
+      <% end %>
+    </div>
+    <div class="col-lg-9">
+      <%= @documentation_about.body %>
+    </div>
+  </section>
+</main>
+<%end%>

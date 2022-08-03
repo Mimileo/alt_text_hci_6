@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Alt favorites</h1>
+
+<div id="alt_favorites">
+  <% @alt_favorites.each do |alt_favorite| %>
+    <%= render alt_favorite %>
+    <p>
+      <%= link_to "Show this alt favorite", alt_favorite %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New alt favorite", new_alt_favorite_path %>

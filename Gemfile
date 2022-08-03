@@ -84,6 +84,8 @@ gem 'pry', '~> 0.13.1'
 gem "pundit"
 gem "select2-rails"
 gem 'shrine', '~> 3.0'
+gem 'sidekiq'
+
 
 # gem files from Mimi
 gem "meilisearch", "~> 0.18.1"

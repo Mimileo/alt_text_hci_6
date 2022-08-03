@@ -1,0 +1,12 @@
+<section class="container">
+  <p style="color: green"><%= notice %></p>
+
+  <%= render @documentation %>
+
+  <% if user_signed_in? && super_admin %>
+    <%= link_to "Edit this documentation", edit_documentation_path(@documentation) %> |
+    <%= link_to "Back to documentations", documentations_path %>
+
+    <%= button_to "Destroy this documentation", @documentation, method: :delete %>
+  <% end %>
+</section>

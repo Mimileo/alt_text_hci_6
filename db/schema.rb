@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_31_221241) do
+ActiveRecord::Schema.define(version: 2022_08_02_233205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abouts", force: :cascade do |t|
+    t.text "body"
+    t.text "description"
+    t.text "seo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -53,6 +61,13 @@ ActiveRecord::Schema.define(version: 2022_05_31_221241) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "alt_favorites", force: :cascade do |t|
+    t.integer "alt_id"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "alt_texts", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id", null: false
@@ -76,7 +91,18 @@ ActiveRecord::Schema.define(version: 2022_05_31_221241) do
     t.integer "total_verifications", default: 0
     t.boolean "flag"
     t.string "flag_reason"
+    t.boolean "banned_image"
+    t.boolean "duplicate_check"
     t.index ["user_id"], name: "index_alts_on_user_id"
+  end
+
+  create_table "documentations", force: :cascade do |t|
+    t.text "body"
+    t.text "description"
+    t.text "seo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
   end
 
   create_table "flags", force: :cascade do |t|
@@ -176,6 +202,7 @@ ActiveRecord::Schema.define(version: 2022_05_31_221241) do
     t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
