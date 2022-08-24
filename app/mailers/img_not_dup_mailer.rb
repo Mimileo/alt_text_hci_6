@@ -1,0 +1,2 @@
+class ImgNotDupMailer < ApplicationMailer
+end

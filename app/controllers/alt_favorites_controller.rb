@@ -21,12 +21,16 @@ class AltFavoritesController < ApplicationController
 
   # POST /alt_favorites or /alt_favorites.json
   def create
+    @alts = Alt.order(created_at: :asc).page(params[:page]).where(verified: true, flag: false)
+    @fav = AltFavorite.new
     @alt_favorite = AltFavorite.new(alt_favorite_params)
+    @alt = Alt.find_by(params[:id])
 
     respond_to do |format|
       if @alt_favorite.save
         session[:return_to] ||= request.referer
-        format.html { redirect_to session.delete(:return_to), notice: "Added to My Seven Army favorites." }
+        format.html { redirect_to session.delete(:return_to), notice: "Added to My Seven Army favorites."}
+        #format.js {redirect_to session.delete(:return_to), notice: "Added to My Seven Army favorites."}
         format.json { render :show, status: :created, location: @alt_favorite }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -51,10 +55,16 @@ class AltFavoritesController < ApplicationController
   # DELETE /alt_favorites/1 or /alt_favorites/1.json
   def destroy
     @alt_favorite.destroy
+   
     respond_to do |format|
       session[:return_to] ||= request.referer
+      
       format.html { redirect_to session.delete(:return_to), notice: "Removed from My Seven Army favorites." }
-      format.json { head :no_content }
+  
+      #format.json  { redirect_to session.delete(:return_to), notice: "Removed from My Seven Army favorites." }
+      format.js
+     
+      
     end
   end
 

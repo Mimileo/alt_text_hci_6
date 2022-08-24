@@ -1,4 +1,7 @@
+
+
 <%= form_with(model: alt) do |form| %>
+
   <% if alt.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(alt.errors.count, "error") %> prohibited this alt from being saved:</h2>
@@ -12,9 +15,13 @@
   <% end %>
   <em>Does the tags represent the entire image?  If not, make a change.</em>
   <div class="form-field mb-3">
-    <%= form.label "Tags for #{alt.title}", for: "alt_text", class: "sr-only d-block" %>
-    <%= form.text_field :tag_list.to_s.split(" "), value: @alt.tag_list.to_s.split(" "), id: "tags", class: "form-control d-block", placeholder: "Tags", required: true %>
-   
+    <% if alt.tag_list.present? %>
+      <%= form.label "Tags for #{alt.title}", for: "alt_text", class: "sr-only d-block" %>
+      <%= form.text_field :tag_list, id: "tags", class: "form-control d-block", placeholder: "Tags", required: true %>
+    <% else %>
+      <%= form.label "Tags for #{alt.title}", for: "alt_text", class: "sr-only d-block" %>
+      <%= form.text_field :tag_list.to_s.split(" "), value: @alt.tag_list.to_s.split(" "), id: "tags", class: "form-control d-block", placeholder: "Tags", required: true %>
+    <% end %>
   </div>
   <div class="form-field mb-3">
     <%= form.label "Alternative text for #{alt.title}", for: "alt_text", class: "sr-only d-block" %>

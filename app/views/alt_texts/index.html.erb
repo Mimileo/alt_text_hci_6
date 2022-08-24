@@ -1,7 +1,6 @@
 <main class="container-fluid pt-3 p-5">
-
 <hr class="border-bottom border-muted my-5">
- <%= render "devise/shared/error_messages", resource: resource %>
+<%= render "devise/shared/error_messages", resource: resource %>
 <% if !@alt_texts.nil? && params[:alt_id].blank? == true  %>
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
       <li class="nav-item" role="presentation">
@@ -18,28 +17,28 @@
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
             <div  id="alts" class="row col-lg-12 p-5" data-masonry='{"percentPosition": true }'>
                 <% @alt_texts.each do |alt_text| %>
-                    <% if alt_text.alt.flag.nil? == false && alt_text.alt.banned_image.nil? == false %>
-                        <div id="alt" class="col-lg-3 mb-5">
-                            <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
-                                <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
-                            <% end %>
-                        </div>
+                    <% if !alt_text.nil?  && alt_text.alt.flag == false || alt_text.alt.flag.blank? %>
+                        <% if alt_text.alt.banned_image.blank? || alt_text.alt.banned_image == false %>
+                            <div id="alt" class="col-lg-3 mb-5">
+                                <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
+                                    <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
+                                <% end %>
+                            </div>
+                        <% end %>
                     <% end %>
                 <% end %>
             </div>
         </div>
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
             <div  id="flags" class="row col-lg-12 p-5 flags" data-masonry='{"percentPosition": true }'>
-                <!--<% if !@alt_texts.nil? && !params[:alt_id].present?%>-->
-                    <% @alt_texts.each do |alt_text| %>
-                        <% if alt_text.alt.flag.nil? == false && alt_text.alt.banned_image.nil? == false %>
-                            <% if alt_text.alt.flag == true %>
-                                <div id="alt" class="col-lg-3 mb-5 flag">
-                                    <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
-                                        <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
-                                    <% end %>
-                                </div>
-                            <% end %>
+                <% @alt_texts.each do |alt_text| %>
+                    <% if alt_text.alt.flag == true %>
+                        <% if alt_text.alt.banned_image.blank? || alt_text.alt.banned_image == false %>
+                            <div id="alt" class="col-lg-3 mb-5 flag">
+                                <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
+                                    <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width, id: "alt" %>
+                                <% end %>
+                            </div>
                         <% end %>
                     <% end %>
                 <% end %>
@@ -47,23 +46,18 @@
         </div>
         <div class="tab-pane fade" id="pills-banned" role="tabpanel" aria-labelledby="pills-banned-tab">
             <div  id="bans" class="row col-lg-12 p-5 flags" data-masonry='{"percentPosition": true }'>
-                <!--<% if !@alt_texts.nil? && !params[:alt_id].present?%>-->
-                    <% @alt_texts.each do |alt_text| %>
-
-                        <% if alt_text.alt.flag.nil? == false && alt_text.alt.banned_image.nil? == false %>
-                            <% if alt_text.alt.flag == true && alt_text.alt.banned_image == true %>
-                                <div id="alt" class="col-lg-3 mb-5 flag">
-                                    <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
-                                        <%= image_tag alt_text.alt.image_url(:small), caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "blur-image border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
-                                    <% end %>
-                                </div>
+                <% @alt_texts.each do |alt_text| %>
+                    <% if alt_text.alt.banned_image == true %>
+                        <div id="alt" class="col-lg-3 mb-5 flag">
+                            <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
+                                <%= image_tag alt_text.alt.image_url(:small), caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "blur-image border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width, id: "alts" %>
                             <% end %>
-                        <% end %>
+                        </div>
                     <% end %>
                 <% end %>
             </div>
         </div>
-   
+    </div>
 <% elsif !@alt_texts.nil? %> 
     <div id="alt_info" class="row col-lg-12 p-5">
         <div class="col-md-4">
@@ -83,7 +77,6 @@
     </div>
 <% end %>
 
-   
 <script>
     $(function(){
         $('#alts').masonry({

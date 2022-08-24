@@ -85,6 +85,7 @@ gem "pundit"
 gem "select2-rails"
 gem 'shrine', '~> 3.0'
 gem 'sidekiq'
+gem 'kaminari'
 
 
 # gem files from Mimi
@@ -99,3 +100,4 @@ gem "searchkick"
 gem  "elasticsearch", "< 7.14"   # select one
 gem 'rails_12factor', group: :production
 gem "font-awesome-rails"
+gem 'pagy', '~> 5.10' 

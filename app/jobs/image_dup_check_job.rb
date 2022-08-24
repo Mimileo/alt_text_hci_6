@@ -1,8 +1,10 @@
 class ImageDupCheckJob < ApplicationJob
   require 'sidekiq/api'
-  queue_as :urgent
+  queue_as :default
+  sidekiq_options retry: 2
 
-  def perform(alt)
-    alt.is_duplicate
+  def perform(alt, user)
+    alt.is_duplicate(user)
   end
+
 end

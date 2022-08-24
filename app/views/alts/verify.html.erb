@@ -1,3 +1,4 @@
+
 <main class="container pt-3">
   <div class="col-8 mt-2 mx-auto">
     <%= form_with url: verify_path, method: :get do |form| %>
@@ -20,7 +21,8 @@
   <div class="row g-4">
     <div class="col-12">
       <div id="altverify_me" class="row">
-        <% @alts.each do |altverify_me | %>  
+        <% @alts.each do |altverify_me | %> 
+
           <div class="row bg-light p-3 border rounded">
             <div class="col-6">
               <%= render "verify_form", alt: altverify_me %>

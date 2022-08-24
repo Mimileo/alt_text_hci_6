@@ -160,6 +160,11 @@ a:active {
   }
 }
 
+.duplicate_checking {
+  filter: blur(100px);
+  -webkit-filter: blur(25px);
+}
+
 .load.active {
   animation: loading 2s ease-in-out;
   animation-fill-mode: forwards;

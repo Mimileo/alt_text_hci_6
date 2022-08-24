@@ -2,7 +2,7 @@
   <div id="<%= dom_id alt %>" class="p-2">
     <%= link_to alt, "aria-label": alt.body do %>
 
-      <%= image_tag alt.image_url(:small), caption: alt.title, alt: alt.alt_texts.pluck(:body).last,height: alt.image(:small).height, width: alt.image(:small).width, class: "border rounded image img-fluid w-100" %>
+      <%= image_tag alt.image_url(:small), caption: alt.title, alt: alt.alt_texts.pluck(:body).last, height: alt.image(:small).height, width: alt.image(:small).width, class: "border rounded image img-fluid w-100" %>
        <turbo-frame id="<%= dom_id(alt) %>" loading="lazy" src="<%= alts_path %>">
           <%= render('common/spinner') %>
       </turbo-frame>

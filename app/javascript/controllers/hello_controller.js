@@ -10,6 +10,12 @@ export default class extends Controller {
       }
     }
 
+    
+    var favs = document.getElementsByClassName("fa-heart");
+    for (let i = 0; i < favs.length; i++){
+    
+      favs[i].style.color ="pink";
+    }
     var x = window.matchMedia("(max-width: 700px)")
     xtra_small = document.getElementsByClassName("d-xtra-small");
     myFunction(x) // Call listener function at run time

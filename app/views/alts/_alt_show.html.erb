@@ -1,5 +1,8 @@
-<% @title = "#{alt.title}" %>
-<% @seo_description = "#{alt.updated_at.strftime("%B #{alt.updated_at.day.ordinalize}, %Y")}... #{alt.title} #{strip_tags(alt.body.truncate(130)).html_safe}" %>
+
+<% if alt.body.present? %>
+  <% @title = "#{alt.title}" %>
+  <% @seo_description = "#{alt.updated_at.strftime("%B #{alt.updated_at.day.ordinalize}, %Y")}... #{strip_tags(alt.body.truncate(130)).html_safe}" %>
+<% end %>
 <% if alt.image.present? %>
   <% @seo_image = "#{alt.image_url(:small)}" %>
   <% @twitter_alt = "#{alt.body}" %>

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :alts, shallow: true do
     resources :alt_texts
   end
-  resources :verifcations
+  # resources :verifcations
   
   
   devise_for :users

@@ -9,40 +9,13 @@ class AltsController < ApplicationController
   # GET /alts or /alts.json
   def index
     @fav = AltFavorite.new
-    @clicked = false
-    puts @clicked
-    search = params[:query].present? ? params[:query] : nil
-
-    if params[:search_home].nil? && search.nil?
-      @alts = Alt.where(verified: true, flag: false).shuffle.first(3)
-    elsif params[:search_home] == "Search" && search.nil? && @clicked == false
-      @alts = Alt.where(verified: true, flag: false).shuffle
-      @clicked = true
-      puts @clicked
-    elsif params[:search_home] != ""
-       @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
-    elsif search.nil?
-      if params[:tag].nil? == false 
-         @alts = Alt.search(params[:tag], fields:[:tags], operator: "or")
-      #elsif params[:tag].nil? == true
-       # @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
-      elsif params[:search_home] == "Search" && @clicked == true
-        @alts = Alt.where(verified: true, flag: false).shuffle
-      end
-
-    else
-      if params[:verify].present?
-        @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
-      else
-        @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
-      end
-    end
-
     @alt = Alt.new
-  
-    #@alts = Alt.search(params[:query])
-    #@alts = Alt.all
-    #@alt = Alt.new
+    if params[:query].present?
+      query = params[:query].presence
+      @alts = Alt.search(query, where:{verified: true, flag: false, flag: nil, banned_image: nil}, fields:[:title, :tags, :body], operator: "or", page: params[:page], per_page: 20)
+    else
+      @alts = Alt.where(verified: true, flag: [false, nil], banned_image: [false, nil]).order(created_at: :asc).page(params[:page])
+    end
   end
 
   # GET /alts/1 or /alts/1.json
@@ -59,14 +32,14 @@ class AltsController < ApplicationController
   end
 
   def verify
-    search = params[:query].present? ? params[:query] : nil
-    if search.nil?
-       @alts = Alt.where(verified: false, flag: false, banned_image: false).shuffle.first(1)
-       @alt = Alt.new
+    if params[:query].present? 
+      query = params[:query].presence
+       @alts = Alt.search(query, fields:[:title, :tags, :body], operator: "or")
     else
-      @alts = Alt.search(search, fields:[:title, :tags, :body], operator: "or")
+      @alts = Alt.all
+      @alts = @alts.where(verified: [false, nil], flag: [false, nil], banned_image: [false, nil]).sample(1)
+      @alt = Alt.new
     end
-     @alt = Alt.new
   end
 
   # GET /alts/new
@@ -78,7 +51,6 @@ class AltsController < ApplicationController
   # GET /alts/1/edit
   def edit
     @alt = Alt.find(params[:id])
-    authorize @alt
   end
 
   # POST /alts or /alts.json
@@ -90,21 +62,12 @@ class AltsController < ApplicationController
         @alt.image_derivatives!
         @alt.image_attacher.add_metadata(caption: @alt.title, alt: @alt.body)
         @alt.save
-        ImageDupCheckJob.perform_now(@alt)
-        if @alt.duplicate_check == true
-           @alt.destroy
-           format.js
-           format.html { render :new, status: :unprocessable_entity }
-           flash[:error] = "The image was a duplicate. Please upload another image" 
-        elsif @alt.duplicate_check == false
-          @alt.verified = @alt.verified
-          @alt.save
-          build_alt_text_versions
-         
-          format.js
-          format.html { redirect_to edit_alt_path(@alt), notice: "Alt was successfully created." }
-          format.json { render :show, status: :created, location: @alt }
-         end
+        build_alt_text_versions
+        @user = current_user
+        image_duplication_check(@alt, @user)
+        format.html { redirect_to root_path, alert: "Checking database for duplicates. This could take a while. Check your email for updates. Take this time to browse seven.army and add, edit, or favorite images." }
+        format.json { render :show, status: :created, location: @alt }
+        format.js
       else
         format.js
         format.html { render :new, status: :unprocessable_entity }
@@ -113,8 +76,9 @@ class AltsController < ApplicationController
     end
   end
 
-  
-
+  def image_duplication_check(alt, user)
+    ImageDupCheckJob.perform_later(alt, user)
+  end
 
   # PATCH/PUT /alts/1 or /alts/1.json
   def update
@@ -127,9 +91,6 @@ class AltsController < ApplicationController
         #   flash[:alert] = "The image was a duplicate. Please upload another image" 
         # else
           build_alt_text_versions
-         
-          
-         
           format.html { redirect_to alt_url(@alt), notice: "Alt was successfully updated." }
           format.json { render :show, status: :ok, location: @alt }
         # end
@@ -283,10 +244,10 @@ class AltsController < ApplicationController
     # Only allow a list of trusted parameters through.
 
     def update_alt_params
-      params.require(:alt).permit(:duplicate_check, :banned_image, :body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :flag_reason)
+      params.require(:alt).permit(:check_performed, :image_dup_locate, :duplicate_check, :banned_image, :body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :flag_reason)
     end
 
     def alt_params
-      params.require(:alt).permit(:duplicate_check, :banned_image, :body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :user_id, :flag_reason)
+      params.require(:alt).permit(:check_performed, :image_dup_locate, :duplicate_check, :banned_image, :body, :image, :flag, :title, :original_url, :original_source, :verified, :tag_list, :user_id, :flag_reason)
     end
 end

@@ -1,24 +1,22 @@
-require 'open-uri'
+
 
 class AltTextsController < ApplicationController
+  require 'open-uri'
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_alt_text, only: %i[ show edit update destroy ]
 
   # GET /alt_texts or /alt_texts.json
   def index
-    #@alt_texts = AltText.select('DISTINCT alt_id')
     search = params[:alt_id].present? ? params[:alt_id] : nil
     if search.nil?
        @alt = Alt.new
        @alt_texts = policy_scope(AltText.select('DISTINCT alt_id'))
+       authorize @alt
     else
       @alt = Alt.new
       @alt_texts = policy_scope(AltText.where(alt_id: search))
+      authorize @alt_texts
     end
-    #@alt = Alt.new
-   # @alt_texts = policy_scope(AltText.select('DISTINCT alt_id'))
-    authorize @alt
-    authorize @alt_texts
   end
 
   # GET /alt_texts/1 or /alt_texts/1.json
