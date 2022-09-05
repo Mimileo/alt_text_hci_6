@@ -1,0 +1,17 @@
+<script>
+   $('#alt_tab').masonry({
+        itemSelector : '#alt',
+        percentPosition: true
+    });
+
+    var tabEl = document.getElementById("pills-profile-tab")
+      tabEl.addEventListener('shown.bs.tab', function (event) {
+
+      $("#alts_fav").masonry({
+        itemSelector: '#alt_fav',
+        percentPosition: true
+      });
+    });
+
+    
+</script>

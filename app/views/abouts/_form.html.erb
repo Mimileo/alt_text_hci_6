@@ -1,5 +1,4 @@
-<%= form_with(model: about) do |form| %>
- <% if about.nil? %> 
+<% if about.nil? %> 
   <% if about.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(about.errors.count, "error") %> prohibited this about from being saved:</h2>
@@ -11,21 +10,22 @@
       </ul>
     </div>
   <% end %>
+<% else %>
+  <%= form_with(model: about) do |form| %>
+    <div class="field my-5">
+      <%= form.label :seo, style: "display: block" %>
+      <%= form.rich_text_area :seo %>
+    </div>
 
-  <div class="field my-5">
-    <%= form.label :seo, style: "display: block" %>
-    <%= form.rich_text_area :seo %>
-  </div>
+    <div class="field my-5">
+      <%= form.label :description, style: "display: block" %>
+      <%= form.rich_text_area :description %>
+    </div>
 
-  <div class="field my-5">
-    <%= form.label :description, style: "display: block" %>
-    <%= form.rich_text_area :description %>
-  </div>
-
-  <div class="field my-5">
-    <%= form.label :body, style: "display: block" %>
-    <%= form.rich_text_area :body %>
-  </div>
-    <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block", id: "submit-btn" %>
-<% end %>
+    <div class="field my-5">
+      <%= form.label :body, style: "display: block" %>
+      <%= form.rich_text_area :body %>
+    </div>
+      <%= form.submit "Save", class: "btn btn-primary btn-lg btn-block", id: "submit-btn" %>
+  <% end %>
 <% end %>

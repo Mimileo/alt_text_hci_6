@@ -29,7 +29,7 @@ class AltFavoritesController < ApplicationController
     respond_to do |format|
       if @alt_favorite.save
         session[:return_to] ||= request.referer
-        format.html { redirect_to session.delete(:return_to), notice: "Added to My Seven Army favorites."}
+        format.html { redirect_to session.delete(:return_to)}
         #format.js {redirect_to session.delete(:return_to), notice: "Added to My Seven Army favorites."}
         format.json { render :show, status: :created, location: @alt_favorite }
       else
@@ -43,7 +43,7 @@ class AltFavoritesController < ApplicationController
   def update
     respond_to do |format|
       if @alt_favorite.update(alt_favorite_params)
-        format.html { redirect_to alt_favorite_url(@alt_favorite), notice: "Alt favorite was successfully updated." }
+        format.html { redirect_to alt_favorite_url(@alt_favorite)}
         format.json { render :show, status: :ok, location: @alt_favorite }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -59,14 +59,16 @@ class AltFavoritesController < ApplicationController
     respond_to do |format|
       session[:return_to] ||= request.referer
       
-      format.html { redirect_to session.delete(:return_to), notice: "Removed from My Seven Army favorites." }
-  
+      format.html { redirect_to session.delete(:return_to)}
+      
       #format.json  { redirect_to session.delete(:return_to), notice: "Removed from My Seven Army favorites." }
       format.js
      
       
     end
   end
+
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.

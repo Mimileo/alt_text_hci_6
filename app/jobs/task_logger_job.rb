@@ -1,6 +1,7 @@
 class TaskLoggerJob < ApplicationJob
-  sidekiq_options queue: :default, retry: 3
+  require 'sidekiq/api'
   queue_as :default
+  sidekiq_options retry: 2
 
   def perform(task)
     msg = "A task was created with the following title: #{task.title}"

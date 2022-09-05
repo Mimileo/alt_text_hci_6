@@ -9,117 +9,99 @@
         </div>
       <% end %>
     </div>
-    <hr class="border-bottom border-muted my-3 ">
-    <div class="row g-5">
-      <div class="col-md-12">
-        <div id="alts" class="row" data-masonry='{"percentPosition": true }'>
-          <ul class="nav nav-tabs mb-3 justify-content-center" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="pills-all-tab" data-bs-toggle="tab" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true" data-bs-masonry='{"percentPosition": true }'>All Seven Army</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="pills-profile-tab" data-bs-toggle="tab" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false" data-bs-masonry='{"percentPosition": true }'>My Seven Army <i class="fa fa-heart" aria-hidden="true"></i></button>
-            </li>
-          </ul>
-          <div class="tab-content favorite_seven" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-              <div  id="alts_tab" class="row col-lg-12 p-5" data-bs-masonry='{"percentPosition": true }'>
-                <% @alts.each do |alt| %>
-                  <% if alt.verified && !alt.flag %>
-                    <div id="alt" class="col-md-4">
-                      <% if current_user.present? %>
-                    
-                             
-                        <% @alt_fav_user_check = current_user.alt_favorites.map{|fav| fav.alt_id == alt.id ? fav.alt_id : nil}.compact.flatten.uniq %>
-                        <% @alt_fav_user_check =  @alt_fav_user_check.pop %>
-                        <% if @alt_fav_user_check.present? && @alt_fav_user_check == alt.id %>
-                         
-                           <%= current_user.alt_favorites.map{|fav| (!fav.nil? && fav.alt_id == alt.id) ?  link_to("", "/alt_favorites/#{fav.id}", method: :delete, id: "favorite", class: "fa fa-heart fs-2 ", style: "visibility: visible;") : nil}.uniq.compact.flatten.join(", ").html_safe %>
-                         
-                           <div class="noFav" style="display: none;">
-                                <%= form_for @fav, local: false, turbo: false, remote: true, :html => {:id => "noFav_#{ alt.id}" }, controller: 'alts' do |f| %>
-                                  <%= f.button type: 'submit', style: "border:0; background:none;", class: "p-0" do  %><i id="noFavorite" class="fa fa-heart-o fs-2" aria-hidden="true"></i><% end %>
-                                  <%= f.hidden_field :user_id, value: current_user.id %>
-                                  <%= f.hidden_field :alt_id, value: alt.id %>
-                                  <%= f.hidden_field :page, value: params[:page] %>
-
-                                <% end %>
-                              </div>
-                         
-                        
-                        <% else %>
-
-
-
-                              <div class="noFav" style="display: inline-block;">
-                                <%= form_for @fav, local: false, method: :post, :html => {:class => "noFavForm", :id => "noFav_#{ alt.id}" }, controller: 'alt_favorites' do |f| %>
-                                  <%= f.button type: 'submit', style: "border:0; background:none;", id: "noFavbtn", class: "p-0" do  %><i id="noFavorite" class="fa fa-heart-o fs-2" aria-hidden="true"></i><% end %>
-                                  <%= f.hidden_field :user_id, value: current_user.id %>
-                                  <%= f.hidden_field :alt_id, value: alt.id %>
-                                  <%= f.hidden_field :page, value: params[:page] %>
-
-                                <% end %>
-                              </div>
-                        <% end %>
-                        <div  >
-                          <%= render alt %>
-                          </div>
-                  
-                      <% else %>
-                        <%= render alt %>
-                      <% end %>
-                    </div>
-                  <% end %>
-                <% end %>
-                <%= paginate @alts, params: {controller: 'alts', action: 'index'} %>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-              <div id="flags" class="row col-lg-12 p-5 flags" data-bs-masonry='{"percentPosition": true }'>
-                <% if current_user.present? %>
-                  <% current_user.alt_favorites.each do |alt| %>
-                  <% alt = Alt.find_by(id: alt.alt_id) %>
-                    <div class="col-md-4">
-                      <% if current_user.present? %>
-                        <% @alt_fav_user_check = current_user.alt_favorites.map{|fav| fav.alt_id == alt.id ? fav.alt_id : nil}.compact.flatten.uniq %>
-                        <% @alt_fav_user_check =  @alt_fav_user_check.pop %>
-                        <% if @alt_fav_user_check.present? && @alt_fav_user_check == alt.id %>
-                          <%= current_user.alt_favorites.map{|fav| fav.alt_id == alt.id ? link_to("", {controller: alt_favorites_path, :action =>'destroy', :id => fav.id}, data: { data_id: alt.id, turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "fa fa-heart fs-2 #{@alt.id} ") : nil}.uniq.compact.flatten.join(", ").html_safe %>
-                          <%= link_to alt, "aria-label": alt.body do %>
-                            <%= image_tag alt.image_url(:small), caption: alt.title, alt: alt.alt_texts.pluck(:body).last,height: alt.image(:small).height, width: alt.image(:small).width, class: "border rounded image img-fluid w-100" %>
-                             <turbo-frame id="<%= dom_id(alt) %>" loading="lazy" src="<%= alts_path %>">
-                                <%= render('common/spinner') %>
-                            </turbo-frame>
-                          <% end %>
-                        <% else %>
-                          <%= form_for @fav, turbo: false, remote: true, :html => {:id => alt.id } do |f| %>
-                            <%= f.button type: 'submit', style: "border:0; background:none;", id: alt.id, class: "p-0" do  %><i class="fa fa-heart-o fs-2" aria-hidden="true"></i><% end %>
+    <div class="mt-4">
+      <ul class="nav nav-tabs mb-3 justify-content-center" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-all-tab" data-bs-toggle="tab" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">All Seven Army</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="tab" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">My Seven Army <i class="fa fa-heart" aria-hidden="true" style="text-decoration: none"></i></button>
+        </li>
+      </ul>
+      <div class="tab-content favorite_seven" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+          <div class="row" id="alt_tab" data-masonry='{"percentPosition": true }'>
+            <% @alts.each do |alt| %>
+              <% if alt.verified && !alt.flag %>
+                <div id="alt" class="p-3 col-sm-6 col-md-4 col-lg-4 col-xl-3 text-center">
+                  <% if current_user.present? %>
+                    <% @alt_fav_user_check = current_user.alt_favorites.map{|fav| fav.alt_id == alt.id ? fav.alt_id : nil}.compact.flatten.uniq %>
+                    <% @alt_fav_user_check =  @alt_fav_user_check.pop %>
+                    <% if @alt_fav_user_check.present? && @alt_fav_user_check == alt.id %>
+                       <%= current_user.alt_favorites.map{|fav| (!fav.nil? && fav.alt_id == alt.id) ?  link_to("", "/alt_favorites/#{fav.id}", method: :delete, id: "favorite", class: "fa fa-heart fs-4 ", style: "text-decoration: none; visibility: visible;") : nil}.uniq.compact.flatten.join(", ").html_safe %>
+                       <div class="noFav" style="display: none;">
+                          <%= form_for @fav, local: false, turbo: false, remote: true, :html => {:id => "noFav_#{ alt.id}" }, controller: 'alts' do |f| %>
+                            <%= f.button type: 'submit', style: "border:0; background:none; text-decoration: none", class: "p-0" do  %><i id="noFavorite" class="fa fa-heart-o fs-4" aria-hidden="true" style="text-decoration: none;"></i><% end %>
                             <%= f.hidden_field :user_id, value: current_user.id %>
                             <%= f.hidden_field :alt_id, value: alt.id %>
+                            <%= f.hidden_field :page, value: params[:page] %>
                           <% end %>
-                          <%= link_to alt, "aria-label": alt.body do %>
-                            <%= image_tag alt.image_url(:small), caption: alt.title, alt: alt.alt_texts.pluck(:body).last,height: alt.image(:small).height, width: alt.image(:small).width, class: "border rounded image img-fluid w-100" %>
-                             <turbo-frame id="<%= dom_id(alt) %>" loading="lazy" src="<%= alts_path %>">
-                                <%= render('common/spinner') %>
-                            </turbo-frame>
-                          <% end %>
+                        </div>
+                    <% else %>
+                      <div class="noFav" style="display: inline-block;">
+                        <%= form_for @fav, local: false, method: :post, :html => {:class => "noFavForm", :id => "noFav_#{ alt.id}" }, controller: 'alt_favorites' do |f| %>
+                          <%= f.button type: 'submit', style: "border:0; background:none; text-decoration: none", id: "noFavbtn", class: "p-0" do  %><i id="noFavorite" class="fa fa-heart-o fs-4" aria-hidden="true" style="text-decoration: none;"></i><% end %>
+                          <%= f.hidden_field :user_id, value: current_user.id %>
+                          <%= f.hidden_field :alt_id, value: alt.id %>
+                          <%= f.hidden_field :page, value: params[:page] %>
                         <% end %>
-                      <% else %>
-                        <div class="fs-1">Please log in or sign up to select favorites</div>
+                      </div>
+                    <% end %>
+                    <%= render alt %>
+                  <% else %>
+                    <%= render alt %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="row">
+          <div class="col-6 text-center">
+            <%= link_to_previous_page @alts, '<——', class: "btn btn-outline-primary btn-lg btn-block" %>
+          </div>
+          <div class="col-6 text-center">
+            <%= link_to_next_page @alts, '——>', class: "btn btn-outline-primary btn-lg btn-block" %>
+          </div>
+        </div>
+        </div>
+        <div class="tab-pane fade show" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+          <div class="row" id="alts_fav" data-masonry='{"percentPosition": true }'>
+            <% if current_user.present? %>
+              <% current_user.alt_favorites.each do |alt| %>
+              <% alt = Alt.find_by(id: alt.alt_id) %>
+                <div id="alt_fav" class="p-3 alt col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                  <% if current_user.present? %>
+                    <% @alt_fav_user_check = current_user.alt_favorites.map{|fav| fav.alt_id == alt.id ? fav.alt_id : nil}.compact.flatten.uniq %>
+                    <% @alt_fav_user_check =  @alt_fav_user_check.pop %>
+                    <% if @alt_fav_user_check.present? && @alt_fav_user_check == alt.id %>
+                      <%= current_user.alt_favorites.map{|fav| fav.alt_id == alt.id ? link_to("", {controller: alt_favorites_path, :action =>'destroy', :id => fav.id}, data: { data_id: alt.id, turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "fa fa-heart fs-4 #{@alt.id} "): nil}.uniq.compact.flatten.join(", ").html_safe %>
+                      <%= link_to alt, "aria-label": alt.body do %>
+                        <%= image_tag alt.image_url(:small), caption: alt.title, alt: alt.alt_texts.pluck(:body).last,height: alt.image(:small).height, width: alt.image(:small).width, class: "border rounded image img-fluid w-100" %>
                       <% end %>
-                    </div>
-                  <% end %>  
-                <% end %>
-              </div>
-            </div>
+                    <% else %>
+                      <%= form_for @fav, turbo: false, remote: true, :html => {:id => alt.id } do |f| %>
+                        <%= f.button type: 'submit', style: "border:0; background:none;", id: alt.id, class: "p-0" do  %><i class="fa fa-heart-o fs-4" aria-hidden="true"></i><% end %>
+                        <%= f.hidden_field :user_id, value: current_user.id %>
+                        <%= f.hidden_field :alt_id, value: alt.id %>
+                      <% end %>
+                      <%= link_to alt, "aria-label": alt.body do %>
+                        <%= image_tag alt.image_url(:small), caption: alt.title, alt: alt.alt_texts.pluck(:body).last,height: alt.image(:small).height, width: alt.image(:small).width, class: "border rounded image img-fluid w-100" %>
+                      <% end %>
+                    <% end %>
+                  <% else %>
+                    <div class="fs-1">Please log in or sign up to select favorites</div>
+                  <% end %>
+                </div>
+              <% end %>  
+            <% end %>
           </div>
         </div>
       </div>
     </div>
   </section>
 </main>
- <script>
-   
+
+<script>
    var ias;
    function initIAS() {
     ias = null;
@@ -130,15 +112,51 @@
       });
     }
 
-    $(document).ready(function() {
-      initIAS();
-     // $(document).on("load", initIAS);
+     $(document).ready(function() {
 
-    });
-    //$(document).ajaxComplete(ias);
+      var isMobile = false;
 
+          if ("maxTouchPoints" in navigator) {
+              isMobile = navigator.maxTouchPoints > 0;
+          } 
 
+          if (isMobile == true) {
+            initIAS();
+          }
 
-
+       });
   </script>
 
+  <script>
+    $(document).ready(function() {
+     //  var alts_layout = document.querySelector('#alt_tab');
+     //  var alts_mason = new Masonry( alts_layout, {
+     //      itemSelector : '#alt',
+     //      percentPosition: true,
+     // });
+
+     //  var flags_layout = document.querySelector('#alts');
+     //  var flags_mason = new Masonry( flags_layout, {
+     //      itemSelector : '#alt',
+     //      percentPosition: true,
+     //      columnWidth: 80
+     // });
+
+      $('#alt_tab').masonry({
+          itemSelector : '#alt',
+          percentPosition: true
+      });
+    });
+
+    
+
+    var tabEl = document.getElementById("pills-profile-tab")
+      tabEl.addEventListener('shown.bs.tab', function (event) {
+
+      $("#alts_fav").masonry({
+        itemSelector: '#alt_fav',
+        percentPosition: true
+      });
+    });
+
+  </script>

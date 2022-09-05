@@ -65,12 +65,70 @@
           </div>
         </div>
       </div>
+     
+        <% if current_user.present? %>
+            <% @fav_check = current_user.alt_favorites.where("alt_id": alt.id).first %>
+          
+            <% if !@fav_check.nil? && @fav_check.alt_id == alt.id %>
+               <%=  link_to "", "#{@alt.id}/unfavorite", id: "#{@alt.id} fav", class: "fav-btn-show fa fa-heart fs-4 mt-3 #{alt.id}" , style: "display: block;"%>
+               <%=  link_to "", "#{@alt.id}/favorite", id: "#{@alt.id} unfav", class: "unfav-btn-show fa fa-heart-o fs-4 mt-3 #{@alt.id} ",  style: "display: none;" %>
+
+            <% else %>
+               <%=  link_to "", "#{@alt.id}/favorite",  id: "#{@alt.id} fav", class: "unfav-btn-show fa fa-heart-o fs-4 mt-3 #{@alt.id} " , style: "display: block;"%>
+               <%=  link_to "", "#{@alt.id}/unfavorite", id: "#{@alt.id} unfav", class: "fav-btn-show fa fa-heart fs-4 mt-3 #{alt.id}" , style: "display: none;"%>
+
+          <% end %>  
+        <% end %>   
     </div>
     <div class="col-md-6">
       <%= image_tag alt.image_url(:small), class: "image", caption: alt.title, alt: alt.alt_texts.pluck(:body).last, class: "img-fluid", height: alt.image(:small).height, width: alt.image(:small).width %>
     </div>
   </div>
 </section>
+<script>
+$(document).ready( function() {
+  console.log("test")
+  $(".fav-btn-show").click( function(e) {
+    console.log( $(".fav-btn-show").attr("id"))
 
+    var altID = $(".fav-btn-show").attr("id");
+    e.preventDefault();
+     $.ajax({
+        type:'PUT',
+        url: altID + '/unfavorite',
+        data: {id : altID },
+        success:function(){
+          console.log("unfaved!")
+      
+          $(".fav-btn-show").css('display', 'none');
+          $('.unfav-btn-show').css('display', 'block');
+          $(this).attr("href",  altID + '/favorite');
+        }
+      });
+  });
+
+
+   $(".unfav-btn-show").click( function(e) {
+    console.log( $(".unfav-btn-show").attr("id"))
+
+    var altID = $(".unfav-btn-show").attr("id");
+    e.preventDefault();
+     $.ajax({
+        type:'PUT',
+        url: altID + '/favorite',
+        data: {id : altID },
+        success:function(){
+          console.log("faved!")
+
+          $(".unfav-btn-show").css('display', 'none');
+          $('.fav-btn-show').css('display', 'block');
+          $(this).attr("href",  altID + '/unfavorite');
+        }
+      });
+  });
+
+});
+
+</script>
    
   

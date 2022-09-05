@@ -17,8 +17,6 @@ class ImageUploader < Shrine
     { 
       small:    magick.resize_to_fit!(800, 800),
     }
+    
   end
-
-  
-
 end

@@ -35,3 +35,5 @@ git config --global core.excludesfile '~/.gitignore_global'
 /node_modules
 .env
 
+
+/config/credentials/staging.key

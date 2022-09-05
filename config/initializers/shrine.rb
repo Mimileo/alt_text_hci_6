@@ -5,6 +5,7 @@ Shrine.plugin :validation_helpers
 Shrine.plugin :derivatives
 Shrine.plugin :activerecord
 Shrine.plugin :data_uri
+Shrine.plugin :remote_url, max_size: 20*1024*1024
 
 
   require "shrine/storage/s3"

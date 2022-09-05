@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   resources :alt_favorites
   get 'favorites/create'
   get 'favorites/destroy'
+  get 'favorites/update'
+  put '/alts/:id/favorite', to: 'alts#favorite', as: 'favorite'
+    put '/alts/:id/unfavorite', to: 'alts#unfavorite', as: 'unfavorite'
+
   resources :documentations, path: "/documentation"
   resources :abouts, path: "/about"
   resources :moderators

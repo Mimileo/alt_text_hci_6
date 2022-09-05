@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+
 <section class="container mt-3">
   <div class="col-8">
     <h2 class="border-bottom mb-5 pb-3">Edit Your Account Information</h2>
@@ -24,7 +26,6 @@
           <%= f.text_field :last_name, autocomplete: "last_name", placeholder: "Last first_name", id: "last_name", class: "form-control" %>
           <%= f.label :last_name, for: "last_name", class: "text-secondary" %>
         </div>
-
         <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
           <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
         <% end %>
@@ -55,19 +56,26 @@
     <h3>Cancel my account</h3>
 
     <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), class: "btn btn-danger btn-sm", data: { confirm: "Are you sure you want to leave Seven Army?" }, method: :delete %></p>
-
-    <div class="row col-lg-12 p-5 flags" data-bs-masonry='{"percentPosition": true }'>
-      <% current_user.alts.each do |alt| %>
-        <div class="col-md-4">
-          <%= link_to alt, "aria-label": "link to #{alt.title}" do %>
-            <%= image_tag alt.image_url, caption: alt.title, alt: alt.alt_texts.pluck(:body).last, height: "100%", width: "100%", class: "border rounded image img-fluid w-100" %>
-             <turbo-frame id="<%= dom_id(alt) %>" loading="lazy" src="<%= alts_path %>">
-                <%= render('common/spinner') %>
-            </turbo-frame>
-          <% end %>
-        </div>
-      <% end %>
-
+</section>
+<section class="container">
+  <div class="row" id="my_images" data-masonry='{"percentPosition": true"}'>
+    <% current_user.alts.each do |alt| %>
+      <div id="my_image" class="p-4 col-sm-3 col-md-2">
+        <%= link_to alt, "aria-label": alt.body do %>
+          <%= image_tag alt.image_url(:small), caption: alt.title, alt: alt.alt_texts.pluck(:body).last,height: alt.image(:small).height, width: alt.image(:small).width, class: "border rounded image img-fluid w-100" %>
+        <% end %>
+      </div>
+    <% end %>
     <%= link_to "Back", :back %>
   </div>
 </section>
+
+<!-- Masonry layout-->
+<script>
+  $(document).ready(function() {
+    $('.row').masonry({
+        itemSelector : '#my_image',
+        percentPosition: true
+    });
+  });
+</script>

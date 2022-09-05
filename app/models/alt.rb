@@ -1,6 +1,7 @@
 class Alt < ApplicationRecord
 
   include ImageUploader::Attachment(:image)
+  include ImageUploader::Attachment.new(:image)
   #include MeiliSearch::Rails
   searchkick word_start: [:title, :tags, :body], filterable: [:tags]
   

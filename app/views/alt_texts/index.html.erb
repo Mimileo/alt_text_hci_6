@@ -1,113 +1,189 @@
-<main class="container-fluid pt-3 p-5">
-<hr class="border-bottom border-muted my-5">
-<%= render "devise/shared/error_messages", resource: resource %>
-<% if !@alt_texts.nil? && params[:alt_id].blank? == true  %>
-    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="tab" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Alt Texts</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="tab" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Flagged</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-banned-tab" data-bs-toggle="tab" data-bs-target="#pills-banned" type="button" role="tab" aria-controls="pills-banned" aria-selected="false">Banned</button>
-      </li>
-    </ul>
-    <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-            <div  id="alts" class="row col-lg-12 p-5" data-masonry='{"percentPosition": true }'>
-                <% @alt_texts.each do |alt_text| %>
-                    <% if !alt_text.nil?  && alt_text.alt.flag == false || alt_text.alt.flag.blank? %>
-                        <% if alt_text.alt.banned_image.blank? || alt_text.alt.banned_image == false %>
-                            <div id="alt" class="col-lg-3 mb-5">
-                                <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
-                                    <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
-                                <% end %>
-                            </div>
+<main class="container-fluid pt-3">
+    <hr class="border-bottom border-muted my-5">
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <% if !@alt_texts.nil? && params[:alt_id].blank? == true  %>
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="tab" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Alt Texts</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-flag-tab" data-bs-toggle="tab" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Flagged</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-banned-tab" data-bs-toggle="tab" data-bs-target="#pills-banned" type="button" role="tab" aria-controls="pills-banned" aria-selected="false">Banned</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div id="alts" class="row col-lg-12 p-5" data-masonry='{"percentPosition": true }'>
+                    <% @alt_texts.each do |alt_text| %>
+                        <% if !alt_text.nil?  && alt_text.alt.flag == false || alt_text.alt.flag.blank? %>
+                            <% if alt_text.alt.banned_image.blank? || alt_text.alt.banned_image == false %>
+                                <div id="alt" class="col-lg-3 mb-5">
+                                    <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
+                                        <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width %>
+                                    <% end %>
+                                </div>
+                            <% end %>
                         <% end %>
                     <% end %>
-                <% end %>
+                </div>
             </div>
-        </div>
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-            <div  id="flags" class="row col-lg-12 p-5 flags" data-masonry='{"percentPosition": true }'>
-                <% @alt_texts.each do |alt_text| %>
-                    <% if alt_text.alt.flag == true %>
-                        <% if alt_text.alt.banned_image.blank? || alt_text.alt.banned_image == false %>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <div  id="flags" class="flags"> 
+                    <% @alt_texts.each do |alt_text| %>
+                        <% if alt_text.alt.flag == true %>
+                            <% if alt_text.alt.banned_image.blank? || alt_text.alt.banned_image == false %>
+                                <div id="flag_alt" class="flag">
+                                    <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
+                                        <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width, id: "alt" %>
+                                    <% end %>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-banned" role="tabpanel" aria-labelledby="pills-banned-tab">
+                <div  id="bans" class="row col-lg-12 p-5 flags" data-masonry='{"percentPosition": true }'>
+                    <% @alt_texts.each do |alt_text| %>
+                        <% if alt_text.alt.banned_image == true %>
                             <div id="alt" class="col-lg-3 mb-5 flag">
                                 <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
-                                    <%= image_tag alt_text.alt.image_url(:small), class: "image", caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width, id: "alt" %>
+                                    <%= image_tag alt_text.alt.image_url(:small), caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "blur-image border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width, id: "alts" %>
                                 <% end %>
                             </div>
                         <% end %>
                     <% end %>
-                <% end %>
+                </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="pills-banned" role="tabpanel" aria-labelledby="pills-banned-tab">
-            <div  id="bans" class="row col-lg-12 p-5 flags" data-masonry='{"percentPosition": true }'>
-                <% @alt_texts.each do |alt_text| %>
-                    <% if alt_text.alt.banned_image == true %>
-                        <div id="alt" class="col-lg-3 mb-5 flag">
-                            <%= link_to alt_alt_texts_path(alt_text.alt_id) do %>
-                                <%= image_tag alt_text.alt.image_url(:small), caption: alt_text.alt.title, alt: alt_text.alt.alt_texts.last.body, class: "blur-image border rounded image img-fluid w-100", height: alt_text.alt.image(:small).height, width: alt_text.alt.image(:small).width, id: "alts" %>
-                            <% end %>
-                        </div>
-                    <% end %>
-                <% end %>
+    <% elsif !@alt_texts.nil? %> 
+        <div id="alt_info" class="row">
+            <div class="col-md-4">
+                <%= render @alt_texts[0].alt %>
+            </div>
+            <div class="col-md-8">
+                <%= render "alts/mod_form", alt: @alt_texts[0].alt %>
             </div>
         </div>
-    </div>
-<% elsif !@alt_texts.nil? %> 
-    <div id="alt_info" class="row col-lg-12 p-5">
-        <div class="col-md-4">
-            <%= render @alt_texts[0].alt %>
+        <div class="alt_texts" class="col-lg-3">   
+            <% @alt_texts.each do |alt_text| %>
+                <%= render alt_text %>
+                <p><%= link_to "Show this alt text", alt_text %></p>
+            <% end %>
         </div>
-        <div class="col-md-8">
-            <%= render "alts/mod_form", alt: @alt_texts[0].alt %>
-        </div>
-    </div>
-    <div class="alt_texts" class="col-lg-3">   
-        <% @alt_texts.each do |alt_text| %>
-            <%= render alt_text %>
-            <p>
-                <%= link_to "Show this alt text", alt_text %>
-            </p>
-        <% end %>
-    </div>
-<% end %>
+    <% end %>
+</main>
 
 <script>
-    $(function(){
-        $('#alts').masonry({
-           
+    $(document).ready(function() {
+        var alts_layout = document.querySelector('#alts');
+        var alts_mason = new Masonry( alts_layout, {
             itemSelector : '#alt',
-            percentPosition: true
+            percentPosition: true,
+            columnWidth: 150
        });
-    });
-    // trigger masonory by using diff id
-    $(function(){
-        $('#flags').masonry({
-           
-            itemSelector : '#alt',
-            percentPosition: true
-       });
-    });
 
-     $(function(){
+      
+     /*
+      var tabFlags = document.getElementById("pills-flag-tab")
+      tabFlags.addEventListener('shown.bs.tab', function (event) {
+
+            $("#flags").masonry({
+                itemSelector: '#flag_alt',
+                percentPosition: true
+            });
+      });*/
+
+       /*  var alts_tab_layout = document.querySelector('#alts_tab');
+         var alts_tab_mason = new Masonry( alts_tab_layout, {
+            itemSelector : '#alt',
+            percentPosition: true,
+            columnWidth: 150
+       });
+
+      
+        imagesLoaded( alts_tab_mason ).on( 'progress', function() {
+       
+            alts_tab_mason.layout();
+           
+
+        });*/
+       
+    
+    // trigger masonory by using diff id
+    
+   
+       //  $('#flags').masonry({
+           
+       //      itemSelector : '#alt',
+       //      percentPosition: true
+       // });
+
+       // $('#flags').imagesLoaded( function() {
+       //      $('#flags').masonry();
+       //  });
+    
+/*
+     
         $('#bans').masonry({
            
             itemSelector : '#alt',
             percentPosition: true
        });
-    });
+    
+
+     
+        $('#alts_tab').masonry({
+           
+            itemSelector : '#alt',
+            percentPosition: true
+       });*/
+
+       
+
+       
+
+
+     });
+
+    /*
+
     var masonryUpdate = function() {
         setTimeout(function() {
-            $('#alts').masonry();
-            $('#flags').masonry();
-             $('#bans').masonry();
+          
+            $('#alts').masonry({
+           
+                itemSelector : '#alt',
+                percentPosition: true
+            });
+
+            $('#flags').masonry({
+           
+                itemSelector : '#alt',
+                percentPosition: true
+            });
+
+            $('#bans').masonry({
+           
+                itemSelector : '#alt',
+                percentPosition: true
+            });
+    
+
+     
+            $('#alts_tab').masonry({
+            
+                itemSelector : '#alt',
+                percentPosition: true
+            });
+           
+        
         }, 500);
     }
-    $(document).on('click', masonryUpdate);
-    $(document).ajaxComplete(masonryUpdate);
+    
+    $(document).ready(masonryUpdate);*/
+   
+    //$(document).ajaxComplete(masonryUpdate);
 </script>
