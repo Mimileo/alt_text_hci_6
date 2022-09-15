@@ -11,6 +11,8 @@
      <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
      <script src="https://unpkg.com/@webcreate/infinite-ajax-scroll@^3.0.0/dist/infinite-ajax-scroll.min.js"></script>
      <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+     <script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.js"></script>
+
 
 
     <%= csrf_meta_tags %>
@@ -44,7 +46,7 @@
     <body class="min-vh-100">
     
       <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
-        <div class="container-fluid">
+        <div class="container">
           <%= link_to "Seven Army", alts_path, class: "navbar-brand" %>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

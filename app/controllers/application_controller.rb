@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   helper_method :super_admin
   helper_method :referee
   helper_method :contributor
+  helper_method :current_user_alt
 
 
   protected
@@ -27,6 +28,12 @@ class ApplicationController < ActionController::Base
       current_user
     else
       nil
+    end
+  end
+
+  def current_user_alt
+    if current_user.present? 
+      alts = current_user.alts.where(verified: true, flag: [false, nil], banned_image: [false, nil], check_performed: true)
     end
   end
 

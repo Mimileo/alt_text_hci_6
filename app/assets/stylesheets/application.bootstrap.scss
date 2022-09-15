@@ -1,9 +1,6 @@
 @import "bootstrap/scss/bootstrap";
 @import "actiontext.css";
 
-body {
-  margin-bottom: 60px;
-}
 a {
   color: $purple !important;
 }
@@ -225,35 +222,76 @@ a:active {
   margin-top: 5%;
 }
 
-
-#flags {
-  column-count: 4;
-  column-gap: .5em;
-  max-width: 980px;
-  margin: auto;
-  width: 100%;
-}
-
-#flags img {
-  height: auto;
-  max-width: 100%;
-}
-
-
-@media(max-width: 800px) {
-  #flags {
-    column-count: 3;
+   
+  
+.grid {
+    max-width: 1280px;
+    margin: auto;
+    padding: 1rem;
   }
+  
+  #alt {
+   // border: 1px solid #ccc;
+  }
+  
+ 
+  
+  #alt>img {
+    width: 100%;
+    height: auto;
+  }
+  
+
+  .grid {
+    --masonry-columns: 2;
+    --masonry-gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .grid {
+      --masonry-columns: 3;
+      --masonry-gap: 1rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .grid {
+      --masonry-columns: 4;
+      --masonry-gap: 2rem;
+    }
+  }
+ 
+  @supports (grid-template-rows: masonry) {
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(var(--masonry-columns), 1fr);
+      grid-gap: var(--masonry-gap);
+      grid-template-rows: masonry;
+    }
+  
+    .grid>* {
+      margin-bottom: 0;
+    }
+  }
+  
+  /* fallback */
+  .grid {
+    column-count: var(--masonry-columns);
+    column-gap: var(--masonry-gap);
+  }
+  
+  .grid>* {
+    margin-bottom: var(--masonry-gap);
+    break-inside: avoid;
+  }
+
+#alt:after {
+ 
+  background-color: rgba(0, 0, 0, 0);
+
 }
 
-@media(max-width: 600px) {
-  #flags {
-    column-count: 2;
-  }
-}
-
-@media(max-width: 400px) {
-  #flags {
-    column-count: 1;
-  }
+#alt:hover:after {
+  font-size: 30px;
+  background-color: rgba(0, 0, 0, 0.6);
 }

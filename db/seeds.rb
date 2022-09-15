@@ -9,9 +9,9 @@
 require 'faker'
 require 'open-uri'
 
-	100.times do 
+	10.times do 
 		a = Alt.new(                                 
-			image_remote_url: Faker::Avatar.image(format: "jpg"),                        
+			image_remote_url: Faker::Avatar.image(size: "30x50",format: "jpg"),                        
 			title: Faker::Hipster.sentence,                               
 			original_url: Faker::Hipster.sentence,
 			original_source: Faker::Hipster.sentence,
@@ -30,9 +30,29 @@ require 'open-uri'
 		puts a.image_url
 	end
 
-	100.times do 
+	10.times do 
 		a = Alt.new(                                 
-			image_remote_url: Faker::Avatar.image(format: "jpg"),                        
+			image_remote_url: Faker::Avatar.image(size: "50x30",format: "jpg"),                        
+			title: Faker::Hipster.sentence,                               
+			original_url: Faker::Hipster.sentence,
+			original_source: Faker::Hipster.sentence,
+			verified: false,
+			user_id: 1,
+			body: Faker::Hipster.paragraphs(number: 2),
+			tag_list: Faker::Hipster.sentence,
+			check_performed: true,
+			duplicate_check: true,
+		)
+	    a.image_derivatives!
+	    a.image_attacher.add_metadata(caption: a.title, alt: a.body)
+		@alt_text = AltText.new(body: a.body, user_id: 1, alt_id: a.id)
+	    @alt_text.save
+	    a.save
+		puts a.image_url
+	end
+	10.times do 
+		a = Alt.new(                                 
+			image_remote_url: Faker::Avatar.image(size: "10x60",format: "jpg"),                        
 			title: Faker::Hipster.sentence,                               
 			original_url: Faker::Hipster.sentence,
 			original_source: Faker::Hipster.sentence,

@@ -16,9 +16,6 @@ let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 })  
 
 
-setInterval( function(){
-     $(".alert").fadeOut(); 
-}, 3000);
 
  // setTimeout(function() {
        
